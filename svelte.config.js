@@ -4,10 +4,10 @@ import adapterGhpages from "svelte-adapter-ghpages";
 const config = {
   kit: {
     paths: {
-      base: "/chrgfra.github.io"
+      base: "/src"
     },
     adapter: adapterGhpages({
-      fallback: '200.html',
+      fallback: 'index.html',
     })
   }
 };
