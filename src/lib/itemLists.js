@@ -402,6 +402,7 @@ export const food = [
   { name: 'Yum-Yum Deviled Eggs', rarity: 0, source: 'Core, 151' },
 ];
 export const beverages = [
+  // why aren't these here?
   { name: 'Beer', rarity: 1, source: 'Core, 160' },
   { name: 'Blood Pack', rarity: 2, source: 'Core, 160' },
   { name: 'Bourbon', rarity: 2, source: 'Core, 160' },
