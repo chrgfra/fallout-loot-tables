@@ -4,21 +4,26 @@ export function getDiceCount(items) {
   return count;
 }
 
+function sortByRarity(a, b, desc = true) {
+  if (a > b) {
+    return desc ? -1 : 1;
+  }
+  if (a < b) {
+    return desc ? 1 : -1;
+  }
+  return 0;
+}
+
 export function distribute(items) {
   // split list by rarity
-  items.sort(({rarity: a}, {rarity: b}) => {
-    if (a > b) {
-      return -1;
-    }
-    if (a < b) {
-      return 1;
-    }
-    return 0;
-  });
+  items.sort(({rarity: a}, {rarity: b}) => sortByRarity(a, b));
 
   // table range
   const size = items.length;
   const count = getDiceCount(items);
+  if (count === 1) {
+    return singleDieTable(items);
+  }
   const range = [count, count*20];
   // find diff between number of possible die results versus length of item list
   // listDiff is number of repeated entries;
@@ -116,4 +121,46 @@ function determineWhichIndicesToRepeat(diff, range) {
     flipABit = !flipABit;
   }
   return repeatKeys;
+}
+
+function singleDieTable(items) {
+  let itemsToRepeat = 20 - items.length;
+  // remove rarity gaps
+  const rarityMap = new Map();
+  let c = 0;
+  const shallow = [...items];
+  shallow.sort(({rarity: a}, {rarity: b}) => sortByRarity(a, b, false));
+  const itemList = shallow.map(item => {
+    const {rarity} = item;
+    if (!rarityMap.has(rarity)) {
+      rarityMap.set(rarity, c++);
+    }
+    return { ...item, rarity: rarityMap.get(rarity) };
+  });
+  itemList.sort(({rarity: a}, {rarity: b}) => sortByRarity(a, b, false));
+  const itemsToReturn = [...itemList];
+  let i = 0;
+  let r = 0;
+  while (itemsToRepeat > 0) {
+    // should add all rarity 0 once, then all rarity 0-1, then 0-2, etc
+    const itemsInRarity = itemList.filter(item => {
+      return item.rarity <= r;
+    }).reverse();
+    if (i === itemsInRarity.length) {
+      i = 0;
+      r++;
+      continue;
+    }
+    const item = itemsInRarity[i++];
+    itemsToReturn.push(item);
+    itemsToRepeat--;
+  }
+  itemsToReturn.sort(({ name: a }, { name: b }) => {
+    return String(a).localeCompare(b);
+  });
+  itemsToReturn.sort(({rarity: a}, {rarity: b}) => sortByRarity(a, b, false));
+  return itemsToReturn.reduce((acc, item, idx) => {
+    acc[idx+1] = item;
+    return acc;
+  }, {});
 }
