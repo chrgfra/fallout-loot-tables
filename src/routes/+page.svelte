@@ -151,7 +151,7 @@
     border: 1px solid #eee;
     font-weight: bold;
     background-color: darkgray;
-    color: #eee;
+    color: #0e1111;
     text-align: center;
   }
 </style>
