@@ -162,7 +162,7 @@ export const meleeWeapons = [
 export const explosives = [
   { name: 'Throwing Knives', rarity: 1, source: 'Core, 119' },
   { name: 'Tomahawk', rarity: 2, source: 'Core, 119' },
-  { name: 'Javeling', rarity: 1, source: 'Core, 119' },
+  { name: 'Javelin', rarity: 1, source: 'Core, 119' },
   { name: 'Baseball Grenade', rarity: 1, source: 'Core, 120' },
   { name: 'Frag Grenade', rarity: 2, source: 'Core, 120' },
   { name: 'Molotov Cocktail', rarity: 1, source: 'Core, 120' },
