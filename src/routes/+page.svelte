@@ -8,6 +8,7 @@
   let lootableList = [];
   let tableData = [];
   let diceCount = 0;
+  let hasHomebrew = false;
 
   function setStorage(key, value) {
     if (browser) {
@@ -34,6 +35,10 @@
     name: camelToSpaces(k),
   }));
 
+  function checkForHomebrew(list) {
+    return list.some(item => item.source === "Homebrew");
+  }
+
   function updateList(event) {
     selectedName = '';
     selectedList = [];
@@ -47,7 +52,7 @@
       return a.localeCompare(b);
     });
     // attempt to find list in localstorage
-    const storedList = getFromStorage(selectedName);
+    const storedList = getFromStorage(selectedName)?.filter(row => selectedList.map(sl => sl.name).includes(row.name));
     lootableList = storedList ? storedList : [...selectedList];
     tableData = Object.entries(lootTable.distribute([...lootableList]));
     diceCount = lootTable.getDiceCount(lootableList);
@@ -56,6 +61,7 @@
       checked: isInList(item)
     }));
     setStorage(selectedName, lootableList);
+    hasHomebrew = checkForHomebrew(lootableList);
   }
 
   function isInList(item) {
@@ -79,10 +85,11 @@
     tableData = Object.entries(lootTable.distribute([...lootableList]));
     diceCount = lootTable.getDiceCount(lootableList);
     lootableList = lootableList;
+    hasHomebrew = checkForHomebrew(lootableList);
   }
 </script>
 
-<h1>Fallout 2d20</h1>
+<h1>Fallout 2d20 Loot Tables</h1>
 <div>
   <!-- select which list -->
   <select on:change={updateList}>
@@ -123,9 +130,9 @@
           </tbody>
         </table>
       {/if}
-      <!-- {#each lootableList as li}
-        <div key={li.name}>{li.name}</div>
-      {/each} -->
+      {#if hasHomebrew}
+        <p>Check <a href="/homebrew" target="_blank">homebrew items</a> for details.</p>
+      {/if}
     </div>
   </div>
 </div>
@@ -140,18 +147,5 @@
   .columns>div>* {
     width: 100%;
     column-count: 2;
-  }
-  table {
-    border-collapse: collapse;
-  }
-  table td {
-    border: 1px solid #eee;
-  }
-  table th {
-    border: 1px solid #eee;
-    font-weight: bold;
-    background-color: darkgray;
-    color: #0e1111;
-    text-align: center;
   }
 </style>

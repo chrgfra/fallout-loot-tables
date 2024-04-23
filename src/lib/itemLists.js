@@ -523,11 +523,34 @@ export const magazines = [
 export const nukaCola = [
   { name: "Empty", rarity: 0, source: "" },
   { name: "2CD + 1 glass bottles", rarity: 1, source: "" },
-  { name: "1 Nuka-Cola", rarity: 2, source: "Core, 160" },
-  { name: "2 Nuka-Cola", rarity: 3, source: "Core, 160" },
+  { name: "1 Nuka-Cola", rarity: 2, source: "Core, 160" },  // HP 120, AP 30  - HP 2, AP 1
+  { name: "2 Nuka-Cola", rarity: 3, source: "Core, 160" }, 
   { name: "1 Nuka-Cola, 1 Nuka-Cherry", rarity: 4, source: "Core, 160" },
   { name: "2 Nuka-Cola, 1 Nuka-Cherry", rarity: 5, source: "Core, 160" },
-  { name: "1 Nuka-Cola Quantum", rarity: 6, source: "Core, 160" },
+  { name: "1 Nuka-Cola Quantum", rarity: 6, source: "Core, 160" },  // HP 600, AP 300 - HP 10, AP 5
+  { name: "1 Nuka-Cherry", rarity: 3, source: "Core, 160" }, // HP 300, AP 75 - HP 3, AP 2
+  { name: "1 Nuka-Cola, 1 Nuka-Cherry, 1 Nuka Cola-Quantum", rarity: 8, source: "Core, 160" },
+  // Other Variants (not in any book)
+  { name: "1 Nuka-Cola Cranberry", rarity: 5, source: "Homebrew" },
+  { name: "1 Nuka-Cola Dark", rarity: 5, source: "Homebrew" },
+  { name: "1 Nuka-Grape", rarity: 5, source: "Homebrew" },
+  { name: "1 Nuka-Cola Orange", rarity: 5, source: "Homebrew" },
+  // { name: "1 Nuka-Cola Quartz", rarity: 5, source: "" },
+  // { name: "1 Nuka-Cola Victory", rarity: 5, source: "" },
+  { name: "1 Nuka-Cola Wild", rarity: 2.5, source: "Homebrew" },
+  { name: "1 Nuka-Cola Twist", rarity: 4, source: "Homebrew" },
+  { name: `1 Nuka-Cola ${(() => {
+    const names = ["Vaccinated", "Scorched", "My Blood's In It"];
+    names.sort(() => {
+      const a = Math.random();
+      const b = Math.random();
+      if (a > b) return -1;
+      if (a < b) return 1;
+      return 0;
+    });
+    return names[0];
+  })()}`, rarity: 6, source: "Homebrew" },
+  // Heal 2HP, +2 DR against attacks from Scorched
 ];
 export const oddities = [
   { name: 'Robot Repait Kit', rarity: 2, source: 'Core, 170' },

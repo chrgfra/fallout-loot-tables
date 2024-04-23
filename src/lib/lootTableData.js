@@ -145,7 +145,7 @@ function singleDieTable(items) {
     // should add all rarity 0 once, then all rarity 0-1, then 0-2, etc
     const itemsInRarity = itemList.filter(item => {
       return item.rarity <= r;
-    }).reverse();
+    });
     if (i === itemsInRarity.length) {
       i = 0;
       r++;
