@@ -1,4 +1,5 @@
 <script>
+  import { browser } from '$app/environment';
   import * as lists from '../lib/itemLists.js';
   import * as lootTable from '../lib/lootTableData.js';
 
@@ -7,6 +8,22 @@
   let lootableList = [];
   let tableData = [];
   let diceCount = 0;
+
+  function setStorage(key, value) {
+    if (browser) {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    }
+  }
+  function getFromStorage(key) {
+    if (browser) {
+      try {
+        return JSON.parse(window.localStorage.getItem(key));
+      } catch(e) {
+        console.log(e);
+      }
+    }
+    return null;
+  }
 
   function camelToSpaces(camel) {
     return camel.charAt(0).toLocaleUpperCase() + camel.substring(1).replace(/([a-z0-9])([A-Z])/g, '$1 $2') 
@@ -29,13 +46,16 @@
     selectedList.sort(({name: a}, {name: b}) => {
       return a.localeCompare(b);
     });
-    lootableList = [...selectedList];
+    // attempt to find list in localstorage
+    const storedList = getFromStorage(selectedName);
+    lootableList = storedList ? storedList : [...selectedList];
     tableData = Object.entries(lootTable.distribute([...lootableList]));
     diceCount = lootTable.getDiceCount(lootableList);
     selectedList = selectedList.map(item => ({
       ...item,
       checked: isInList(item)
     }));
+    setStorage(selectedName, lootableList);
   }
 
   function isInList(item) {
@@ -55,6 +75,7 @@
       // add it
       lootableList.push(item);
     }
+    setStorage(selectedName, lootableList);
     tableData = Object.entries(lootTable.distribute([...lootableList]));
     diceCount = lootTable.getDiceCount(lootableList);
     lootableList = lootableList;
@@ -124,11 +145,13 @@
     border-collapse: collapse;
   }
   table td {
-    border: 1px solid black;
+    border: 1px solid #eee;
   }
   table th {
-    border: 1px solid black;
+    border: 1px solid #eee;
     font-weight: bold;
-    background-color: lightgray;
+    background-color: darkgray;
+    color: #eee;
+    text-align: center;
   }
 </style>
