@@ -1,103 +1,91 @@
-<h1>Homebrew Items</h1>
+<script>
+  import * as lists from '../../lib/itemLists';
+  
+  const homebrewItems = Object.fromEntries(
+    Object
+      .entries(lists)
+      .filter(
+        ([listName, itemsInList]) => {
+          return listName !== "nukaCola" && itemsInList.some(item => item.source === "Homebrew");
+        }
+      )
+      .map(([listName, itemsInList]) => [listName, itemsInList.filter(i => i.source === "Homebrew")])
+  );
 
-<h2>Beverages</h2>
-<!-- <aside>
-  <h3>Random Stat</h3>
+  const masterList = {};
+
+  for (let listName of Object.keys(homebrewItems)) {
+    const list = homebrewItems[listName];
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i];
+      if (!masterList[item.type]) masterList[item.type] = {};
+      masterList[item.type][item.name] = item;
+    }
+  }
+
+  const itemTableMap = {
+    "Energy Weapons": [
+      // field: label
+      { key: "name", label: "Energy Weapon" },
+      { key: "type", label: "Weapon Type" },
+      { key: "damage", label: "Damage Rating" },
+      { key: "effects", label: "Damage Effects" },
+      { key: "damageType", label: "Damage Type" },
+      { key: "fireRate", label: "Fire Rate" },
+      { key: "range", label: "Range" },
+      { key: "qualities", label: "Qualities" },
+      { key: "weight", label: "Weight" },
+      { key: "cost", label: "Cost" },
+      { key: "rarity", label: "Rarity" },
+    ],
+    "Beverages": [
+      { key: "name", label: "Item" },
+      { key: "hpHealed", label: "HP Healed" },
+      { key: "otherEffects", label: "Other Effects" },
+      { key: "irradiated", label: "Irradiated?" },
+      { key: "weight", label: "Weight" },
+      { key: "cost", label: "Cost" },
+      { key: "rarity", label: "Rarity" },
+    ]
+  };
+</script>
+
+<h1>Homebrew Items</h1>
+<p>Back to <a href="/">loot tables</a>.</p>
+
+{#each Object.keys(masterList) as category}
+  <h2>{category}</h2>
   <table>
     <thead>
       <tr>
-        <th>1d6</th>
-        <th>Stat</th>
+        {#each itemTableMap[category] as heading }
+          <th>{heading.label}</th>
+        {/each}
       </tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>STR</td></tr>
-      <tr><td>2</td><td>PER</td></tr>
-      <tr><td>3</td><td>END</td></tr>
-      <tr><td>4</td><td>CHA</td></tr>
-      <tr><td>5</td><td>INT</td></tr>
-      <tr><td>6</td><td>AGI</td></tr>
+      {#each Object.keys(masterList[category]) as itemName}
+        <tr>
+          {#each itemTableMap[category] as mapping}
+            <td>{Array.isArray(masterList[category][itemName][mapping.key]) ? masterList[category][itemName][mapping.key].join(", ") : masterList[category][itemName][mapping.key]}</td>
+          {/each}
+        </tr>
+      {/each}
     </tbody>
   </table>
-</aside> -->
-<table>
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>HP Healed</th>
-      <th>Other Effects</th>
-      <th>Irradiated?</th>
-      <th>Weight</th>
-      <th>Cost</th>
-      <th>Rarity</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Nuka-Cola Cranberry</td>
-      <td>2</td>
-      <td>Increase one skill by 1 for the remainder of the scene.</td>
-      <td>1</td>
-      <td>1</td>
-      <td>30</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Nuka-Cola Dark</td>
-      <td>0</td>
-      <td>Alcoholic. Reroll 1d20 on all STR and END tests.</td>
-      <td>-</td>
-      <td>1</td>
-      <td>35</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Nuka-Grape</td>
-      <td>7</td>
-      <td>Heal 10 Rad damage and gain 3 AP.</td>
-      <td>-</td>
-      <td>1</td>
-      <td>50</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Nuka-Cola Orange</td>
-      <td>7</td>
-      <td>+1 Rad DR. Gain 3 AP.</td>
-      <td>-</td>
-      <td>1</td>
-      <td>50</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Nuka-Cola Wild</td>
-      <td>2</td>
-      <td>Gain 2 AP</td>
-      <td>1</td>
-      <td>1</td>
-      <td>20</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>Nuka-Cola Twist</td>
-      <td>2</td>
-      <td>Gain 1 AP. Reroll 1d20 on tests using a random stat.</td>
-      <td>1</td>
-      <td>1</td>
-      <td>25</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <td>Nuka-Cola Vaccinated | Scorched | My Blood's In It</td>
-      <td>2</td>
-      <td>+2 DR against all attacks from Scorched enemies.</td>
-      <td>-</td>
-      <td>1</td>
-      <td>20</td>
-      <td>6</td>
-    </tr>
-  </tbody>
-</table>
+  {#each Object.keys(masterList[category]) as itemName}
+    <h3>{masterList[category][itemName].name}</h3>
+    <p>{masterList[category][itemName].description}</p>
+    {#if masterList[category][itemName].modOptions}
+      <p>{masterList[category][itemName].name} can accept one of each of the following mods:</p>
+      <ul>
+        {#each Object.keys(masterList[category][itemName].modOptions) as optionCategory}
+          <li><strong>{optionCategory}:</strong> {masterList[category][itemName].modOptions[optionCategory].join(", ")}</li>
+        {/each}
+      </ul>
+    {/if}
+  {/each}
+{/each}
 
 <style>
   aside {

@@ -96,6 +96,30 @@ export const energyWeapons = [
   { name: 'Microwave Emitter', rarity: 5, source: 'Wanderers, 65' },
   // { name: 'Tesla Rifle', rarity: 4, source: 'Settlers, 91' },
   { name: 'Tesla Rifle', rarity: 4, source: 'Wanderers, 65' },
+  // Homebrew
+  {
+    name: "Enclave Plasma Gun", 
+    rarity: 4, 
+    source: "Homebrew", 
+    type: "Energy Weapons", 
+    damage: 7, 
+    effects: [], 
+    damageType: "Physical/Energy", 
+    fireRate: 1, 
+    range: 'C', 
+    qualities: ['Close Quarters'], 
+    weight: 4, 
+    cost: 246, 
+    ammo: 'Plasma Cartridge', 
+    description: "A specialized model of plasma gun developed by the Enclave. It has more precise and sophisticated construction than a run-of-the-mill plasma gun, giving it more damage potential but also it's more difficult to modify. Visibly, an Enclave plasma gun is distinguished by its darker color scheme. Any attempt to modify an Enclave plasma gun has +2 complication range. Mods for an Enclave plasma gun are incompatible with a standard plasma gun and vice versa.", 
+    modOptions: {
+      Capacitor: ["Photon Exciter", "Beta Wave Tuner", "Boosted Capacitor", "Photon Agitator"],
+      Barrel: ["Splitter", "Automatic Barrel", "Sniper Barrel", "Flamer Barrel", "Improved Barrel"],
+      Grip: ["Sharpshooter's Girp"],
+      Stock: ["Standard Stock", "Marksman's Stock", "Recoil-Compensating Stock"],
+      Sights: ["Reflex Sight", "Short Scope", "Long Scope", "Short Night Vision Scope", "Long Night Vision Scope", "Recon Scope"]
+    }
+  }
 ];
 export const bigGuns = [
   { name: 'Fat Man', rarity: 4, source: 'Core, 106' },
@@ -426,6 +450,103 @@ export const beverages = [
   { name: 'Vodka', rarity: 3, source: 'Core, 161' },
   { name: 'Whiskey', rarity: 3, source: 'Core, 161' },
   { name: 'Wine', rarity: 3, source: 'Core, 161' },
+  // Homebrew
+  {
+    name: "Nuka-Cola Cranberry",
+    rarity: 5,
+    source: "Homebrew",
+    type: "Beverages",
+    hpHealed: 2,
+    otherEffects: "Increase one skill by 1 for the remainder of the scene.",
+    irradiated: 1,
+    weight: 1,
+    cost: 30,
+    description: "A flavored variant of Nuka-Cola using cranberries from Appalachia. The bright flavor makes you feel a bit sharper. Upon drinking Nuka-Cola Cranberry, choose a skill: that skill is considered 1 point higher for the rest of the day."
+  },
+  {
+    name: "Nuka-Cola Dark", 
+    rarity: 5, 
+    source: "Homebrew", 
+    type: "Beverages",
+    hpHealed: 0,
+    otherEffects: "Alcoholic. Reroll 1d20 on all STR and END tests.",
+    irradiated: '-',
+    weight: 1,
+    cost: 35,
+    description: "A variant made for adult demographics, Nuka-Cola Dark is a pre-mixed Nuka-Cola and Rum. APV is 35%."
+  },
+  { 
+    name: "Nuka-Grape", 
+    rarity: 5, 
+    source: "Homebrew", 
+    type: "Beverages",
+    hpHealed: 7,
+    otherEffects: "Heal 10 Rad damage. Gain 3 AP.",
+    irradiated: '-',
+    weight: 1,
+    cost: 50,
+    description: "Originally sold overseas as Grape-Pearl Soda, it was rebranded as Nuka-Grape after the Nuka-Cola Corporation acquired the recipe. Unrealized before the war, the unique additives used to produce the grape flavor counteract the effects of radiation sickness."
+  },
+  { 
+    name: "Nuka-Cola Orange", 
+    rarity: 5, 
+    source: "Homebrew", 
+    type: "Beverages",
+    hpHealed: 7,
+    otherEffects: "+1 Rad DR. Gain 3 AP.",
+    irradiated: '-',
+    weight: 1,
+    cost: 50,
+    description: "Another fruit-flavored variant, the artificial flavors used included trace quantities of arsenic and lead. The imbiber gets +1 Rad DR for the rest of the day after drinking it."
+  },
+  // { name: "1 Nuka-Cola Quartz", rarity: 5, source: "" },
+  // { name: "1 Nuka-Cola Victory", rarity: 5, source: "" },
+  {
+    name: "Nuka-Cola Wild", 
+    rarity: 2, 
+    source: "Homebrew", 
+    type: "Beverages",
+    hpHealed: 2,
+    otherEffects: "Gain 2 AP.",
+    irradiated: 1,
+    weight: 1,
+    cost: 20,
+    description: "The Nuka-Cola Corporation developed its Wild variant to compete with Sunset Sarsaparilla. While it never surpassed its competitor in the West, it was much more successful on the East Coast."
+  },
+  { 
+    name: "Nuka-Cola Twist", 
+    rarity: 4, 
+    source: "Homebrew", 
+    type: "Beverages",
+    hpHealed: 2,
+    otherEffects: "Gain 3 AP. See description.",
+    irradiated: 1,
+    weight: 1,
+    cost: 25,
+    description: "A \"mystery flavor\" variant released to promote Nuka-World, Nuka-Cola Twist is actually 6 different flavors with the same label. There's no way to distinguish which flavor it is until opened and tasted. Upon drinking, for the remainder of the day, reroll 1d20 on tests with a particular stat. Roll 1d6 to determine which stat is buffed. Drinking more Nuka-Cola Twist replaces the current bonus."
+  },
+  { 
+    name: `Nuka-Cola ${(() => {
+      const names = ["Vaccinated", "Scorched", "My Blood's In It"];
+      names.sort(() => {
+        const a = Math.random();
+        const b = Math.random();
+        if (a > b) return -1;
+        if (a < b) return 1;
+        return 0;
+      });
+      return names[0];
+    })()}`, 
+    rarity: 6, 
+    source: "Homebrew", 
+    type: "Beverages",
+    hpHealed: 2,
+    otherEffects: "+2 DR against all attacks from Scorched enemies.",
+    irradiated: '-',
+    weight: 1,
+    cost: 20,
+    description: "A special formula designed in Appalachia after the War. The formula was synthesized from a sample of a Vault Dweller's blood to distribute a vaccine against the Scorched Plague. Drinking one makes someone permanantly immune to Scorched Plague, in addition to temporary resistance to infected."
+  },
 ];
 export const chems = [
   { name: 'Addictol', rarity: 3, source: 'Core, 164' },
@@ -531,14 +652,14 @@ export const nukaCola = [
   { name: "1 Nuka-Cherry", rarity: 3, source: "Core, 160" }, // HP 300, AP 75 - HP 3, AP 2
   { name: "1 Nuka-Cola, 1 Nuka-Cherry, 1 Nuka Cola-Quantum", rarity: 8, source: "Core, 160" },
   // Other Variants (not in any book)
-  { name: "1 Nuka-Cola Cranberry", rarity: 5, source: "Homebrew" },
-  { name: "1 Nuka-Cola Dark", rarity: 5, source: "Homebrew" },
-  { name: "1 Nuka-Grape", rarity: 5, source: "Homebrew" },
-  { name: "1 Nuka-Cola Orange", rarity: 5, source: "Homebrew" },
+  { name: "1 Nuka-Cola Cranberry", rarity: 5, source: "Homebrew", type: "Beverage" },
+  { name: "1 Nuka-Cola Dark", rarity: 5, source: "Homebrew", type: "Beverage" },
+  { name: "1 Nuka-Grape", rarity: 5, source: "Homebrew", type: "Beverage" },
+  { name: "1 Nuka-Cola Orange", rarity: 5, source: "Homebrew", type: "Beverage" },
   // { name: "1 Nuka-Cola Quartz", rarity: 5, source: "" },
   // { name: "1 Nuka-Cola Victory", rarity: 5, source: "" },
-  { name: "1 Nuka-Cola Wild", rarity: 2.5, source: "Homebrew" },
-  { name: "1 Nuka-Cola Twist", rarity: 4, source: "Homebrew" },
+  { name: "1 Nuka-Cola Wild", rarity: 2.5, source: "Homebrew", type: "Beverage" },
+  { name: "1 Nuka-Cola Twist", rarity: 4, source: "Homebrew", type: "Beverage" },
   { name: `1 Nuka-Cola ${(() => {
     const names = ["Vaccinated", "Scorched", "My Blood's In It"];
     names.sort(() => {
@@ -549,8 +670,7 @@ export const nukaCola = [
       return 0;
     });
     return names[0];
-  })()}`, rarity: 6, source: "Homebrew" },
-  // Heal 2HP, +2 DR against attacks from Scorched
+  })()}`, rarity: 6, source: "Homebrew", type: "Beverage" },
 ];
 export const oddities = [
   { name: 'Robot Repait Kit', rarity: 2, source: 'Core, 170' },

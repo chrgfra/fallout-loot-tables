@@ -131,7 +131,7 @@
         </table>
       {/if}
       {#if hasHomebrew}
-        <p>Check <a href="/homebrew" target="_blank">homebrew items</a> for details.</p>
+        <p>Check <a href="/homebrew">homebrew items</a> for details.</p>
       {/if}
     </div>
   </div>
