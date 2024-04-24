@@ -6,10 +6,10 @@
       .entries(lists)
       .filter(
         ([listName, itemsInList]) => {
-          return listName !== "nukaCola" && itemsInList.some(item => item.source === "Homebrew");
+          return !['nukaCola', 'legendaryBaseItems'].includes(listName) && itemsInList.some(item => item.source === "Homebrew");
         }
       )
-      .map(([listName, itemsInList]) => [listName, itemsInList.filter(i => i.source === "Homebrew")])
+      .map(([listName, itemsInList]) => [listName, itemsInList.filter(i => i.source === "Homebrew" && !i.skip)])
   );
 
   const masterList = {};
@@ -24,9 +24,34 @@
   }
 
   const itemTableMap = {
+    "Small Guns": [
+      { key: "name", label: "Small Gun" },
+      { key: "type", label: "Weapon Type" },
+      { key: "damage", label: "Damage Rating" },
+      { key: "effects", label: "Damage Effects" },
+      { key: "damageType", label: "Damage Type" },
+      { key: "fireRate", label: "Fire Rate" },
+      { key: "range", label: "Range" },
+      { key: "qualities", label: "Qualities" },
+      { key: "weight", label: "Weight" },
+      { key: "cost", label: "Cost" },
+      { key: "rarity", label: "Rarity" },
+    ],
     "Energy Weapons": [
-      // field: label
       { key: "name", label: "Energy Weapon" },
+      { key: "type", label: "Weapon Type" },
+      { key: "damage", label: "Damage Rating" },
+      { key: "effects", label: "Damage Effects" },
+      { key: "damageType", label: "Damage Type" },
+      { key: "fireRate", label: "Fire Rate" },
+      { key: "range", label: "Range" },
+      { key: "qualities", label: "Qualities" },
+      { key: "weight", label: "Weight" },
+      { key: "cost", label: "Cost" },
+      { key: "rarity", label: "Rarity" },
+    ],
+    "Big Guns": [
+      { key: "name", label: "Big Gun" },
       { key: "type", label: "Weapon Type" },
       { key: "damage", label: "Damage Rating" },
       { key: "effects", label: "Damage Effects" },
@@ -48,42 +73,36 @@
       { key: "rarity", label: "Rarity" },
     ]
   };
+
+  console.log(masterList);
 </script>
 
 <h1>Homebrew Items</h1>
 <p>Back to <a href="/">loot tables</a>.</p>
 
 {#each Object.keys(masterList) as category}
-  <h2>{category}</h2>
+  <h2 key="{category}">{category}</h2>
   <table>
     <thead>
       <tr>
         {#each itemTableMap[category] as heading }
-          <th>{heading.label}</th>
+          <th key="{heading.label}-{category}">{heading.label}</th>
         {/each}
       </tr>
     </thead>
     <tbody>
       {#each Object.keys(masterList[category]) as itemName}
-        <tr>
+        <tr key="row-{itemName}-{category}">
           {#each itemTableMap[category] as mapping}
-            <td>{Array.isArray(masterList[category][itemName][mapping.key]) ? masterList[category][itemName][mapping.key].join(", ") : masterList[category][itemName][mapping.key]}</td>
+            <td key="{mapping.key}-{itemName}-{category}">{Array.isArray(masterList[category][itemName][mapping.key]) ? masterList[category][itemName][mapping.key].join(", ") : masterList[category][itemName][mapping.key]}</td>
           {/each}
         </tr>
       {/each}
     </tbody>
   </table>
   {#each Object.keys(masterList[category]) as itemName}
-    <h3>{masterList[category][itemName].name}</h3>
-    <p>{masterList[category][itemName].description}</p>
-    {#if masterList[category][itemName].modOptions}
-      <p>{masterList[category][itemName].name} can accept one of each of the following mods:</p>
-      <ul>
-        {#each Object.keys(masterList[category][itemName].modOptions) as optionCategory}
-          <li><strong>{optionCategory}:</strong> {masterList[category][itemName].modOptions[optionCategory].join(", ")}</li>
-        {/each}
-      </ul>
-    {/if}
+    <h3 key="entry-{itemName}-{category}">{masterList[category][itemName].name}</h3>
+    {@html masterList[category][itemName].description}
   {/each}
 {/each}
 

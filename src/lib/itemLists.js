@@ -75,6 +75,57 @@ export const smallGuns = [
   { name: 'Pump-Action Shotgun', rarity: 1, source: 'Wanderers, 60' },
   { name: 'Radium Rifle', rarity: 3, source: 'Wanderers, 60' },
   { name: 'Sniper Rifle', rarity: 4, source: 'Wanderers, 60' },
+  // Homebrew
+  {
+    name: "Crusader Pistol", 
+    rarity: 5, 
+    source: "Homebrew", 
+    type: "Small Guns", 
+    damage: 6, 
+    effects: ['Piercing 1'], 
+    damageType: "Physical", 
+    fireRate: 1, 
+    range: 'C', 
+    qualities: ['Close Quarters', 'Reliable'], 
+    weight: 4,
+    cost: 500, 
+    description: `
+    <p><strong>Ammunition:</strong> 10mm</p>
+    <p>Special pistol developed by the Brotherhood of Steel.</p>
+    <ul>
+      <li><strong>Receiver:</strong> Pyro Receiver, Cryo Receiver, Fusion Receiver, 5.56 Receiver</li>
+      <li><strong>Barrel:</strong> Long Barrel</li>
+      <li><strong>Grip:</strong> Sharpshooter's Grip</li>
+      <li><strong>Magazine:</strong> Large Magazine</li>
+      <li><strong>Sights:</strong> Reflex Sight, Short Scope</li>
+      <li><strong>Muzzle:</strong> Suppressor</li>
+    </ul>
+    <p>The receiver mods for the Crusader Pistol are unique and presented below.</p>
+    <table>
+      <thead>
+        <tr><th>Receiver Mod</th><th>Name Prefix</th><th>Effect</th><th>Weight</th><th>Cost</th><th>Perks</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pyro Receiver</td><td>Pyro</td><td>Adds Persistant (Energy) effect</td><td>+1</td><td>+250</td><td>Science! 2</td></tr>
+        <tr><td>Cryo Receiver</td><td>Cryo</td><td>Adds Freezing effect</td><td>+1</td><td>+250</td><td>Science! 2</td></tr>
+        <tr><td>Fusion Receiver</td><td>Fusion</td><td>Changes damage type to Energy; changes ammo to fusion cells.</td><td>+1</td><td>+200</td><td>Science! 1</td></tr>
+        <tr><td>5.56 Receiver</td><td>5.56</td><td>+1 damage; changes ammo to 5.56.</td><td>+2</td><td>+150</td><td>Gun Nut 1</td></tr>
+      </tbody>
+    </table>
+    <p>The recipes for these mods are below, and they can be crafted at a Weapons Workbench.</p>
+    <table>
+      <thead>
+        <tr><th>Mod</th><th>Complexity</th><th>Perks</th><th>Skill</th><th>Rarity</th></tr>
+      </thead>
+      <tbody >
+        <tr><td>Pyro Receiver</td><td>5</td><td>Science! 2</td><td>Science</td><td>Rare</td></tr>
+        <tr><td>Cryo Receiver</td><td>5</td><td>Science! 2</td><td>Science</td><td>Rare</td></tr>
+        <tr><td>Fusion Receiver</td><td>4</td><td>Science! 1</td><td>Science</td><td>Rare</td></tr>
+        <tr><td>5.56 Receiver</td><td>4</td><td>Gun Nut 1</td><td>Repair</td><td>Rare</td></tr>
+      </tbody>
+    </table>
+    `,
+  }
 ];
 export const energyWeapons = [
   { name: 'Institute Laser', rarity: 2, source: 'Core, 101' },
@@ -110,16 +161,19 @@ export const energyWeapons = [
     qualities: ['Close Quarters'], 
     weight: 4, 
     cost: 246, 
-    ammo: 'Plasma Cartridge', 
-    description: "A specialized model of plasma gun developed by the Enclave. It has more precise and sophisticated construction than a run-of-the-mill plasma gun, giving it more damage potential but also it's more difficult to modify. Visibly, an Enclave plasma gun is distinguished by its darker color scheme. Any attempt to modify an Enclave plasma gun has +2 complication range. Mods for an Enclave plasma gun are incompatible with a standard plasma gun and vice versa.", 
-    modOptions: {
-      Capacitor: ["Photon Exciter", "Beta Wave Tuner", "Boosted Capacitor", "Photon Agitator"],
-      Barrel: ["Splitter", "Automatic Barrel", "Sniper Barrel", "Flamer Barrel", "Improved Barrel"],
-      Grip: ["Sharpshooter's Girp"],
-      Stock: ["Standard Stock", "Marksman's Stock", "Recoil-Compensating Stock"],
-      Sights: ["Reflex Sight", "Short Scope", "Long Scope", "Short Night Vision Scope", "Long Night Vision Scope", "Recon Scope"]
-    }
-  }
+    description: `
+    <p><strong>Ammunition:</strong> Plasma Cartridge</p>
+    <p>A specialized model of plasma gun developed by the Enclave. It has more precise and sophisticated construction than a run-of-the-mill plasma gun, giving it more damage potential but also it's more difficult to modify. Visibly, an Enclave plasma gun is distinguished by its darker color scheme. Any attempt to modify an Enclave plasma gun has +2 complication range. Mods for an Enclave plasma gun are incompatible with a standard plasma gun and vice versa, and all Enclave plasma gun mods are Rare.</p>
+    <p>The default profile is for an Enclave plasma pistol. Any Stock mods change the weapon to an Enclave plasma rifle.</p>
+    <ul>
+      <li><strong>Capacitor:</strong> Photon Exciter, Beta Wave Tuner, Boosted Capacitor, Photon Agitator</li>
+      <li><strong>Barrel:</strong> Splitter, Automatic Barrel, Sniper Barrel, Flamer Barrel</li>
+      <li><strong>Stock:</strong> Standard Stock, Marksman's Stock, Recoil-Compensating Stock</li>
+      <li><strong>Grip:</strong> Sharpshooter's Grip</li>
+      <li><strong>Sights:</strong> Reflex Sight, Short Scope, Long Scope, Short Night Vision Scope, Long Night Vision Scope, Recon Scope</li>
+    </ul>
+    `,
+  },
 ];
 export const bigGuns = [
   { name: 'Fat Man', rarity: 4, source: 'Core, 106' },
@@ -140,6 +194,156 @@ export const bigGuns = [
   { name: 'Gauss Minigun', rarity: 6, source: 'Wanderers, 67' },
   { name: 'Plasma Caster', rarity: 5, source: 'Wanderers, 67' },
   { name: 'Tesla Cannon', rarity: 5, source: 'Wanderers, 67' },
+  // Homebrew
+  // Pepper Shaker, Cremator, Hellstorm Missile Launcher
+  {
+    name: "Pepper Shaker", 
+    rarity: 5, 
+    source: "Homebrew", 
+    type: "Big Guns", 
+    damage: 7, 
+    effects: [], 
+    damageType: "Physical", 
+    fireRate: 3,
+    range: 'C', 
+    qualities: ['Gatling', 'Ammo-Hungry (4)', 'Two-Handed'], 
+    weight: 18, 
+    cost: 150, 
+    description: `
+    <p><strong>Ammunition:</strong> Shotgun Shells</p>
+    <p>It's a gatling shotgun.</p>
+    <ul>
+      <li><strong>Barrel:</strong> Dual, Hex, Single</li>
+      <li><strong>Magazine:</strong> Laser, Plasma</li>
+      <li><strong>Sights:</strong> Gunner Sight</li>
+    </ul>
+    <p>The barrel and magazine mods for the Pepper Shaker are unique and presented below.</p>
+    <table>
+    <tbody>
+        <tr><th>Barrel Mod</th><th>Name Prefix</th><th>Effect</th><th>Weight</th><th>Cost</th><th>Perks</th></tr>
+        <tr><td>Dual</td><td>Dual-Barreled</td><td> -1 damage, -1 fire rate, change Ammo-Hungry to 2. </td><td> -2 </td><td> +100 </td><td>Gun Nut 1</td></tr>
+        <tr><td>Hex</td><td>Dual-Barreled</td><td> +4 damage, +2 fire rate, change Ammo-Hungry to 8. </td><td> +4 </td><td> +100 </td><td>Gun Nut 2</td></tr>
+        <tr><td>Single</td><td>Single-Barreled</td><td> -2 damage, -2 fire rate, remove Ammo-Hungry </td><td> +4 </td><td> +100 </td><td>Gun Nut 2</td></tr>
+        <tr><th>Magazine Mod</th><th>Name Prefix</th><th>Effect</th><th>Weight</th><th>Cost</th><th>Perks</th></tr>
+        <tr><td>Laser</td><td>Fusion</td><td> Change damage type to Energy; Change ammo to fusion cells. </td><td> +4 </td><td> +200 </td><td>Science! 2</td></tr>
+        <tr><td>Plasma</td><td>Plasma</td><td> Change damage type to Physical/Energy; Change ammo to plasma cartridges. </td><td> +4 </td><td> +500 </td><td>Science! 3</td></tr>
+      </tbody>
+    </table>
+    <p>The recipes for these mods are below, and they can be crafted at a Weapons Workbench.</p>
+    <table>
+      <thead>
+        <tr><th>Mod</th><th>Complexity</th><th>Perks</th><th>Skill</th><th>Rarity</th></tr>
+      </thead>
+      <tbody >
+        <tr><td>Dual Barrel</td><td>3</td><td>Gun Nut 1</td><td>Repair</td><td>Rare</td></tr>
+        <tr><td>Hex Barrel</td><td>4</td><td>Gun Nut 2</td><td>Repair</td><td>Rare</td></tr>
+        <tr><td>Single Barrel</td><td>3</td><td>Gun Nut 1</td><td>Repair</td><td>Rare</td></tr>
+
+        <tr><td>Laser</td><td>5</td><td>Science! 2</td><td>Science</td><td>Rare</td></tr>
+        <tr><td>Plasma</td><td>7</td><td>Science! 3</td><td>Science</td><td>Rare</td></tr> 
+      </tbody>
+    </table>
+    `,
+  },
+  {
+    name: "Cremator", 
+    rarity: 5, 
+    source: "Homebrew", 
+    type: "Big Guns", 
+    damage: 10, 
+    effects: ['Breaking', 'Persistent'],
+    damageType: "Physical", 
+    fireRate: 0,
+    range: 'L', 
+    qualities: ['Ammo-Hungry (10)', 'Blast', 'Debilitating', 'Inaccurate', 'Two-Handed'], 
+    weight: 18, 
+    cost: 400, 
+    description: `
+    <p><strong>Ammunition:</strong> Flamer Fuel</p>
+    <p>It lobs fireballs.</p>
+    <ul>
+      <li><strong>Fuel:</strong> Napalm, Slow-Burning</li>
+      <li><strong>Tank:</strong> Huge </li>
+      <li><strong>Barrel:</strong> Double-shot, Heavy, Multi-Shot</li>
+    </ul>
+    <p>The mods for the Cremator are unique and presented below.</p>
+    <table>
+    <tbody>
+        <tr><th>Fuel Mod</th><th>Name Prefix</th><th>Effect</th><th>Weight</th><th>Cost</th><th>Perks</th></tr>
+        <tr><td>Napalm</td><td>Napalm</td><td> +1 damage rating. </td><td> +3 </td><td> +200 </td><td>-</td></tr>
+        <tr><td>Slow-Burning</td><td>Slow-Burning</td><td> -2 damage rating. For the purposes of Persistent, count Effects twice. </td><td> - </td><td> - </td><td>-</td></tr>
+        <tr><th>Tank Mod</th><th>Name Prefix</th><th>Effect</th><th>Weight</th><th>Cost</th><th>Perks</th></tr>
+        <tr><td>Huge</td><td>-</td><td> +2 fire rate. </td><td> +3 </td><td> +200 </td><td>-</td></tr>
+        <tr><th>Barrel Mod</th><th>Name Prefix</th><th>Effect</th><th>Weight</th><th>Cost</th><th>Perks</th></tr>
+        <tr><td>Double-Shot</td><td>-</td><td> +1 fire rate, gain Vicious. </td><td> +4 </td><td> +300 </td><td>-</td></tr>
+        <tr><td>Heavy</td><td>-</td><td> +2 damage rating. </td><td> +10 </td><td> +200 </td><td>-</td></tr>
+        <tr><td>Multi-Shot</td><td>-</td><td> Change Blast quality to Bombard. </td><td> +4 </td><td> +200 </td><td>-</td></tr>
+      </tbody>
+    </table>
+    <p>The recipes for these mods are below, and they can be crafted at a Weapons Workbench.</p>
+    <table>
+      <thead>
+        <tr><th>Mod</th><th>Complexity</th><th>Perks</th><th>Skill</th><th>Rarity</th></tr>
+      </thead>
+      <tbody >
+        <tr><td>Napalm</td><td>4</td><td>-</td><td>Science</td><td>Rare</td></tr>
+        <tr><td>Slow-Burning</td><td>4</td><td>-</td><td>Science</td><td>Rare</td></tr>
+        
+        <tr><td>Huge Tank</td><td>3</td><td>-</td><td>Repair</td><td>Rare</td></tr>
+
+        <tr><td>Double-Shot</td><td>5</td><td>-</td><td>Repair</td><td>Rare</td></tr>
+        <tr><td>Heavy</td><td>5</td><td>-</td><td>Repair</td><td>Rare</td></tr> 
+        <tr><td>Multi-Shot</td><td>6</td><td>-</td><td>Science</td><td>Rare</td></tr> 
+      </tbody>
+    </table>
+    `,
+  },
+  {
+    name: "Hellfire Missile Launcher", 
+    rarity: 5, 
+    source: "Homebrew", 
+    type: "Big Guns", 
+    damage: 10, 
+    effects: [],
+    damageType: "Physical", 
+    fireRate: 3,
+    range: 'L', 
+    qualities: ['Blast', 'Two-Handed'], 
+    weight: 13, 
+    cost: 600, 
+    description: `
+    <p><strong>Ammunition:</strong> Missiles</p>
+    <p>Automatic Missile Launcher</p>
+    <ul>
+      <li><strong>Payload:</strong> Napalm, Enhanced Blast, Plasma, Cryo</li>
+      <li><strong>Sight:</strong> Recon Scope, Night Vision Scope </li>
+    </ul>
+    <p>The Payload mods for the Hellfire Missile Launcher are unique and presented below.</p>
+    <table>
+      <thead>
+        <tr><th>Payload Mod</th><th>Name Prefix</th><th>Effect</th><th>Weight</th><th>Cost</th><th>Perks</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Napalm</td><td>Napalm</td><td>Adds Persistant (Energy) effect</td><td> +10 </td><td>+200</td><td>-</td></tr>
+        <tr><td>Enhanced Blast</td><td>Hex</td><td>+1 damage, +2 fire rate</td><td> +10 </td><td>+200</td><td>-</td></tr>
+        <tr><td>Plasma</td><td>Plasma</td><td>Changes damage type to Physical/Energy.</td><td> +10 </td><td>+200</td><td>-</td></tr>
+        <tr><td>Cryo</td><td>Cryo</td><td>Adds Freezing effect.</td><td> +10 </td><td>+200</td><td>-</td></tr>
+      </tbody>
+    </table>
+    <p>The recipes for these mods are below, and they can be crafted at a Weapons Workbench.</p>
+    <table>
+      <thead>
+        <tr><th>Mod</th><th>Complexity</th><th>Perks</th><th>Skill</th><th>Rarity</th></tr>
+      </thead>
+      <tbody >
+        <tr><td>Napalm</td><td>5</td><td>-</td><td>Science</td><td>Rare</td></tr>
+        <tr><td>Enhanced Blast</td><td>5</td><td>-</td><td>Repair</td><td>Rare</td></tr>
+        <tr><td>Plasma</td><td>5</td><td>-</td><td>Science</td><td>Rare</td></tr>
+        <tr><td>Cryo</td><td>5</td><td>-</td><td>Science</td><td>Rare</td></tr>
+      </tbody>
+    </table>
+    `,
+  },
 ];
 export const rangedWeapons = [ 
   ...smallGuns, ...energyWeapons, ...bigGuns,
@@ -461,7 +665,7 @@ export const beverages = [
     irradiated: 1,
     weight: 1,
     cost: 30,
-    description: "A flavored variant of Nuka-Cola using cranberries from Appalachia. The bright flavor makes you feel a bit sharper. Upon drinking Nuka-Cola Cranberry, choose a skill: that skill is considered 1 point higher for the rest of the day."
+    description: "<p>A flavored variant of Nuka-Cola using cranberries from Appalachia. The bright flavor makes you feel a bit sharper. Upon drinking Nuka-Cola Cranberry, choose a skill: that skill is considered 1 point higher for the rest of the scene.</p>"
   },
   {
     name: "Nuka-Cola Dark", 
@@ -473,7 +677,7 @@ export const beverages = [
     irradiated: '-',
     weight: 1,
     cost: 35,
-    description: "A variant made for adult demographics, Nuka-Cola Dark is a pre-mixed Nuka-Cola and Rum. APV is 35%."
+    description: "<p>A variant made for adult demographics, Nuka-Cola Dark is a pre-mixed Nuka-Cola and Rum. APV is 35%.</p>"
   },
   { 
     name: "Nuka-Grape", 
@@ -485,7 +689,7 @@ export const beverages = [
     irradiated: '-',
     weight: 1,
     cost: 50,
-    description: "Originally sold overseas as Grape-Pearl Soda, it was rebranded as Nuka-Grape after the Nuka-Cola Corporation acquired the recipe. Unrealized before the war, the unique additives used to produce the grape flavor counteract the effects of radiation sickness."
+    description: "<p>Originally sold overseas as Grape-Pearl Soda, it was rebranded as Nuka-Grape after the Nuka-Cola Corporation acquired the recipe. Unrealized before the war, the unique additives used to produce the grape flavor counteract the effects of radiation sickness.</p>"
   },
   { 
     name: "Nuka-Cola Orange", 
@@ -497,7 +701,7 @@ export const beverages = [
     irradiated: '-',
     weight: 1,
     cost: 50,
-    description: "Another fruit-flavored variant, the artificial flavors used included trace quantities of arsenic and lead. The imbiber gets +1 Rad DR for the rest of the day after drinking it."
+    description: "<p>Another fruit-flavored variant, the artificial flavors used included trace quantities of arsenic and lead. The imbiber gets +1 Rad DR for the rest of the scene after drinking it.</p>"
   },
   // { name: "1 Nuka-Cola Quartz", rarity: 5, source: "" },
   // { name: "1 Nuka-Cola Victory", rarity: 5, source: "" },
@@ -511,7 +715,7 @@ export const beverages = [
     irradiated: 1,
     weight: 1,
     cost: 20,
-    description: "The Nuka-Cola Corporation developed its Wild variant to compete with Sunset Sarsaparilla. While it never surpassed its competitor in the West, it was much more successful on the East Coast."
+    description: "<p>The Nuka-Cola Corporation developed its Wild variant to compete with Sunset Sarsaparilla. While it never surpassed its competitor in the West, it was much more successful on the East Coast.</p>"
   },
   { 
     name: "Nuka-Cola Twist", 
@@ -523,7 +727,7 @@ export const beverages = [
     irradiated: 1,
     weight: 1,
     cost: 25,
-    description: "A \"mystery flavor\" variant released to promote Nuka-World, Nuka-Cola Twist is actually 6 different flavors with the same label. There's no way to distinguish which flavor it is until opened and tasted. Upon drinking, for the remainder of the day, reroll 1d20 on tests with a particular stat. Roll 1d6 to determine which stat is buffed. Drinking more Nuka-Cola Twist replaces the current bonus."
+    description: "<p>A \"mystery flavor\" variant released to promote Nuka-World, Nuka-Cola Twist is actually 6 different flavors with the same label. There's no way to distinguish which flavor it is until opened and tasted. Upon drinking, for the remainder of the scene, reroll 1d20 on tests with a particular stat. Roll 1d6 to determine which stat is buffed. Drinking more Nuka-Cola Twist replaces the current bonus.</p>"
   },
   { 
     name: `Nuka-Cola ${(() => {
@@ -545,7 +749,7 @@ export const beverages = [
     irradiated: '-',
     weight: 1,
     cost: 20,
-    description: "A special formula designed in Appalachia after the War. The formula was synthesized from a sample of a Vault Dweller's blood to distribute a vaccine against the Scorched Plague. Drinking one makes someone permanantly immune to Scorched Plague, in addition to temporary resistance to infected."
+    description: "<p>A special formula designed in Appalachia after the War. The formula was synthesized from a sample of a Vault Dweller's blood to distribute a vaccine against the Scorched Plague. Drinking one makes someone permanantly immune to Scorched Plague, in addition to temporary resistance to attacks from the infected.</p>"
   },
 ];
 export const chems = [
@@ -724,6 +928,298 @@ export const oddities = [
   { name: 'Container', rarity: 2, source: '' },
   { name: 'Magazine', rarity: 3, source: '' },
   { name: 'Locked Container', rarity: 4, source: '' },
+];
+// rarityValue = (complexity + rarityValue)^(rarityRating === 'Rare' ? 2 : 1)
+export const looseMods = [
+  // armor
+  { name: 'Ballistic Weave', rarity: 3^2, source: '' },
+  { name: 'Ballistic Weave Mk II', rarity: (3+1)^2, source: '' },
+  { name: 'Ballistic Weave Mk III', rarity: (3+2)^2, source: '' },
+  { name: 'Ballistic Weave Mk IV', rarity: (3+3)^2, source: '' },
+  { name: 'Ballistic Weave Mk V', rarity: (3+4)^2, source: '' },
+  { name: 'Insulated Vault Suit Lining', rarity: 2, source: '' },
+  { name: 'Treated Vault Suit Lining', rarity: 3+2, source: '' },
+  { name: 'Resistant Vault Suit Lining', rarity: 4+3, source: '' },
+  { name: 'Protective Vault Suit Lining', rarity: 5+4+2, source: '' },
+  { name: 'Shielded Vault Suit Lining', rarity: 6+4+4, source: '' },
+  { name: 'Welded Raider Mod', rarity: 2, source: '' },
+  { name: 'Tempered Raider Mod', rarity: 3, source: '' },
+  { name: 'Hardened Raider Mod', rarity: 4+1, source: '' },
+  { name: 'Buttressed Raider Mod', rarity: 5+1, source: '' },
+  { name: 'Boiled Leather Mod', rarity: 2, source: '' },
+  { name: 'Girded Leather Mod', rarity: 3, source: '' },
+  { name: 'Treated Leather Mod', rarity: 4+1, source: '' },
+  { name: 'Shadowed Leather Mod', rarity: 5+1, source: '' },
+  { name: 'Studded Leather Mod', rarity: 6+1, source: '' },
+  { name: 'Painted Metal Mod', rarity: 2, source: '' },
+  { name: 'Enameled Metal Mod', rarity: 3+1, source: '' },
+  { name: 'Shadowed Metal Mod', rarity: 4+1, source: '' },
+  { name: 'Alloyed Metal Mod', rarity: 5+1, source: '' },
+  { name: 'Polished Metal Mod', rarity: 6+2, source: '' },
+  { name: 'Reinforced Combat Mod', rarity: 3, source: '' },
+  { name: 'Shadowed Combat Mod', rarity: 4+1, source: '' },
+  { name: 'Fiberglass Combat Mod', rarity: 5+1, source: '' },
+  { name: 'Polymer Combat Mod', rarity: 6+1, source: '' },
+  { name: 'Laminated Synth Mod', rarity: 4, source: '' },
+  { name: 'Resin Synth Mod', rarity: 5+1, source: '' },
+  { name: 'Microcarbon Synth Mod', rarity: 6+1, source: '' },
+  { name: 'Nanofilament Synth Mod', rarity: 7+1, source: '' },
+  { name: 'Lighter Build Armor Mod', rarity: 2, source: '' },
+  { name: 'Pocketed Armor Mod', rarity: 2, source: '' },
+  { name: 'Deep Pocketed Armor Mod', rarity: 4+2, source: '' },
+  { name: 'Lead-Lined Armor Mod', rarity: 5+3, source: '' },
+  { name: 'Ultra-Light Armor Mod', rarity: 5+3, source: '' },
+  { name: 'Padded Armor Mod', rarity: 3, source: '' },
+  { name: 'Asbestos Lining Armor Mod', rarity: 4+1, source: '' },
+  { name: 'Dense Armor Mod', rarity: 6+3, source: '' },
+  { name: 'BioCommMesh Armor Mod', rarity: 7+4+2, source: '' },
+  { name: 'Pneumatic Armor Mod', rarity: 6+4, source: '' },
+  { name: 'Brawling Armor Mod', rarity: 3+1, source: '' },
+  { name: 'Braced Armor Mod', rarity: 3+1, source: '' },
+  { name: 'Stabilized Armor Mod', rarity: 4+2, source: '' },
+  { name: 'Aerodynamic Armor Mod', rarity: 5+3, source: '' },
+  { name: 'Weighted Armor Mod', rarity: 6+4, source: '' },
+  { name: 'Cushioned Armor Mod', rarity: 3+1, source: '' },
+  { name: 'Muffled Armor Mod', rarity: 4+2, source: '' },
+  // Power Armor
+  { name: 'Raider II Power Armor Upgrade', rarity: 3+1, source: '' },
+  { name: 'T-45b Power Armor Upgrade', rarity: 3+1, source: '' },
+  { name: 'T-45c Power Armor Upgrade', rarity: 4+2, source: '' },
+  { name: 'T-45d Power Armor Upgrade', rarity: 5+3, source: '' },
+  { name: 'T-45e Power Armor Upgrade', rarity: 6+4, source: '' },
+  { name: 'T-45f Power Armor Upgrade', rarity: 7+5, source: '' },
+  { name: 'T-51b Power Armor Upgrade', rarity: 3+1, source: '' },
+  { name: 'T-51c Power Armor Upgrade', rarity: 4+2, source: '' },
+  { name: 'T-51d Power Armor Upgrade', rarity: 5+3, source: '' },
+  { name: 'T-51e Power Armor Upgrade', rarity: 6+4, source: '' },
+  { name: 'T-51f Power Armor Upgrade', rarity: 7+5, source: '' },
+  { name: 'T-60b Power Armor Upgrade', rarity: 3, source: '' },
+  { name: 'T-60c Power Armor Upgrade', rarity: 4+2, source: '' },
+  { name: 'T-60d Power Armor Upgrade', rarity: 5+4, source: '' },
+  { name: 'T-60e Power Armor Upgrade', rarity: 6+4, source: '' },
+  { name: 'T-60f Power Armor Upgrade', rarity: 7+5, source: '' },
+  { name: 'X-01 Mk II Power Armor Upgrade', rarity: 3, source: '' },
+  { name: 'X-01 Mk III Power Armor Upgrade', rarity: 4+2, source: '' },
+  { name: 'X-01 Mk IV Power Armor Upgrade', rarity: 5+4, source: '' },
+  { name: 'X-01 Mk V Power Armor Upgrade', rarity: 6+4, source: '' },
+  { name: 'X-01 Mk VI Power Armor Upgrade', rarity: 7+5, source: '' },
+
+  { name: 'Rad Scrubber Power Armor System', rarity: 4+2, source: '' },
+  { name: 'Sensor Array Power Armor System', rarity: 5+3, source: '' },
+  { name: 'Targeting HUD Power Armor System', rarity: 5+3, source: '' },
+  { name: 'Internal Database Power Armor System', rarity: 4+2, source: '' },
+  { name: 'Welded Rebar Power Armor System', rarity: 2+1, source: '' },
+  { name: 'Core Assembly Power Armor System', rarity: 5+3, source: '' },
+  { name: 'Blood Cleanser Power Armor System', rarity: 4+1, source: '' },
+  { name: 'Emergency Protocols Power Armor System', rarity: 6+4, source: '' },
+  { name: 'Motion-Assist Servos Power Armor System', rarity: 5+3, source: '' },
+  { name: 'Kinetic Dynamo Power Armor System', rarity: 6+4, source: '' },
+  { name: 'Medic Pump Power Armor System', rarity: 6+4, source: '' },
+  { name: 'Reactive Plates Power Armor System', rarity: 5+4, source: '' },
+  { name: 'Tesla Coils Power Armor System', rarity: 5+3, source: '' },
+  { name: 'Stealth Boy Power Armor System', rarity: 6+4, source: '' },
+  { name: 'Jetpack Power Armor System', rarity: 7+4+4, source: '' },
+  { name: 'Rusty Knuckles Power Armor System', rarity: 2+1, source: '' },
+  { name: 'Hydraulic Bracers Power Armor System', rarity: 4+3, source: '' },
+  { name: 'Optimized Bracers Power Armor System', rarity: 2+1, source: '' },
+  { name: 'Tesla Bracers Power Armor System', rarity: 6+4, source: '' },
+  { name: 'Calibrated Shocks Power Armor System', rarity: 4+2, source: '' },
+  { name: 'Explosive Vent Power Armor System', rarity: 5+3, source: '' },
+  { name: 'Overdrive Servos Power Armor System', rarity: 5+3, source: '' },
+
+  { name: 'Titanium Power Armor Plating', rarity: 4+3, source: '' },
+  { name: 'Lead Power Armor Plating', rarity: 3+1, source: '' },
+  { name: 'Photovoltaic Power Armor Plating', rarity: 5+3, source: '' },
+  { name: 'Winterized Power Armor Coating', rarity: 3+1, source: '' },
+  { name: 'Prism Power Armor Shielding', rarity: 4+2, source: '' },
+  { name: 'Explosive Power Armor Shielding', rarity: 3+1, source: '' },
+  { name: 'EMP Power Armor Shielding', rarity: 3+1, source: '' },
+
+  // small guns
+  { name: "Hardend Receiver", rarity: 2, source: "" },
+  { name: "Powerful Receiver", rarity: 3+1, source: "" },
+  { name: "Advanced Receiver", rarity: 5+2, source: "" },
+  { name: "Calibrated Receiver", rarity: 2, source: "" },
+  { name: "Automatic Receiver", rarity: 3+1, source: "" },
+  { name: "Hair Trigger Receiver", rarity: 4+2, source: "" },
+  { name: ".38 Receiver", rarity: 6+4, source: "" },
+  { name: ".308 Receiver", rarity: 6+4, source: "" },
+  { name: ".45 Receiver", rarity: 4+2, source: "" },
+  { name: ".50 Receiver", rarity: 6+4, source: "" },
+  { name: "Automatic Piston Receiver", rarity: 4+2, source: "" },
+
+  { name: "Snubnose Barrel", rarity: 2, source: "" },
+  { name: "Bull Barrel", rarity: 5+3, source: "" },
+  { name: "Long Barrel (Small Guns)", rarity: 3+1, source: "" },
+  { name: "Ported Barrel", rarity: 6+4, source: "" },
+  { name: "Vented Barrel", rarity: 6+4, source: "" },
+  { name: "Sawed-Off Barrel", rarity: 2, source: "" },
+  { name: "Finned Barrel", rarity: 4+2, source: "" },
+  
+  { name: "Comfort Grip", rarity: 2, source: "" },
+  { name: "Sharpshooter's Grip (Small Guns)", rarity: 3+1, source: "" },
+
+  { name: "Large Mag", rarity: 4+1, source: "" },
+  { name: "Quick-Eject Mag", rarity: 5+1, source: "" },
+  { name: "Large Quick-Eject Mag", rarity: 5+2, source: "" },
+
+  { name: "Full Stock (Small Guns)", rarity: 2, source: "" },
+  { name: "Marksman's Stock (Small Guns)", rarity: 4+2, source: "" },
+  { name: "Recoil-Compensating Stock (Small Guns)", rarity: 5+3, source: "" },
+
+  { name: "Reflex Sight", rarity: 2, source: "" },
+  { name: "Short Scope", rarity: 2, source: "" },
+  { name: "Long Scope", rarity: 4+2, source: "" },
+  { name: "Short Night Vision Scope", rarity: 4+2, source: "" },
+  { name: "Long Night Vision Scope", rarity: 5+3, source: "" },
+  { name: "Recon Scope", rarity: 5+3, source: "" },
+  
+  { name: "Bayonet", rarity: 2, source: "" },
+  { name: "Compensator", rarity: 3+1, source: "" },
+  { name: "Muzzle Break", rarity: 3+1, source: "" },
+  { name: "Suippressor", rarity: 4+2, source: "" },
+
+  // Energy Weapons
+  { name: "Beta Wave Tuner", rarity: 2, source: "" },
+  { name: "Boosted Capacitor", rarity: 2, source: "" },
+  { name: "Photon Excitor", rarity: 3+1, source: "" },
+  { name: "Photon Agitator", rarity: 4+2, source: "" },
+  { name: "Three-Crank Capacitor", rarity: 2, source: "" },
+  { name: "Four-Crank Capacitor", rarity: 3+1, source: "" },
+  { name: "Five-Crank Capacitor", rarity: 4+2, source: "" },
+  { name: "Six-Crank Capacitor", rarity: 5+3, source: "" },
+  
+  { name: "Bracketed Short Barrel", rarity: 3, source: "" },
+  { name: "Long Barrel (Energy Weapons)", rarity: 3, source: "" },
+  { name: "Splitter", rarity: 3, source: "" },
+  { name: "Automatic Barrel", rarity: 4+1, source: "" },
+  { name: "Bracketed Long Barrel", rarity: 4+1, source: "" },
+  { name: "Improved Barrel", rarity: 4+1, source: "" },
+  { name: "Sniper Barrel", rarity: 4+1, source: "" },
+  { name: "Flamer Barrel", rarity: 5+2, source: "" },
+  
+  { name: "Sharpshooter's Grip (Energy Weapons)", rarity: 3+1, source: "" },
+
+  { name: "Standard Stock (Energy Weapons)", rarity: 2, source: "" },
+  { name: "Full Stock (Energy Weapons)", rarity: 2, source: "" },
+  { name: "Marksman's Stock (Energy Weapons)", rarity: 4+2, source: "" },
+  { name: "Recoil-Compensating Stock (Energy Weapons)", rarity: 5+3, source: "" },
+
+  { name: "Reflex Sight", rarity: 2, source: "" },
+  { name: "Short Scope", rarity: 2, source: "" },
+  { name: "Long Scope", rarity: 4+2, source: "" },
+  { name: "Short Night Vision Scope", rarity: 4+2, source: "" },
+  { name: "Long Night Vision Scope", rarity: 5+3, source: "" },
+  { name: "Recon Scope", rarity: 5+3, source: "" },
+
+  { name: "Beam Splitter", rarity: 4+1, source: "" },
+  { name: "Beam Focuser", rarity: 4+1, source: "" },
+  { name: "Gyro Compensating Lens", rarity: 4+1, source: "" },
+
+  // big guns
+  { name: "Napalm Fuel", rarity: 3, source: "" },
+  { name: "Long Barrel (Flamer)", rarity: 3, source: "" },
+  { name: "Large Tank", rarity: 3, source: "" },
+  { name: "Huge Tank", rarity: 4, source: "" },
+  { name: "Compression Nozzle", rarity: 3, source: "" },
+  { name: "Vaporization Nozzle", rarity: 4, source: "" },
+
+  { name: "Deep Dish", rarity: 6+4, source: "" },
+  { name: "Electric SignalCarrier Antennae", rarity: 5+3, source: "" },
+  { name: "Signal Repeater", rarity: 6+4, source: "" },
+
+  { name: "Photon Exciter (Gatling Laser)", rarity: 6+3, source: "" },
+  { name: "Beta Wave Tuner (Gatling Laser)", rarity: 4, source: "" },
+  { name: "Boosted Capacitor (Gatling Laser)", rarity: 4, source: "" },
+  { name: "Photon Agitator (Gatling Laser)", rarity: 6+3, source: "" },
+  { name: "Charging Barrels (Gatling Laser)", rarity: 7+4, source: "" },
+  { name: "Reflex Sight (Gatling Laser)", rarity: 7+4, source: "" },
+  { name: "Beam Focuser (Gatling Laser)", rarity: 4, source: "" },
+
+  { name: "Long Barrel (Junk Jet)", rarity: 4, source: "" },
+  { name: "Recoil-Compensating Stock (Junk Jet)", rarity: 2, source: "" },
+  { name: "Gunner Sight (Junk Jet)", rarity: 2, source: "" },
+  { name: "Electrification Module (Junk Jet)", rarity: 6+3, source: "" },
+  { name: "Ignition Module (Junk Jet)", rarity: 7+4, source: "" },
+
+  { name: "Accelerated Barrel (Minigun)", rarity: 5+3, source: "" },
+  { name: "Tri-Barrel (Minigun)", rarity: 6+4, source: "" },
+  { name: "Gunner Sight (Minigun)", rarity: 2, source: "" },
+  { name: "Shredder (Minigun)", rarity: 4+2, source: "" },
+
+  { name: "Triple Barrel (Missile Launcher)", rarity: 4+2, source: "" },
+  { name: "Quad Barrel (Missile Launcher)", rarity: 5+3, source: "" },
+  { name: "Scope (Missile Launcher)", rarity: 4+2, source: "" },
+  { name: "Night Vision Scope (Missile Launcher)", rarity: 6+5, source: "" },
+  { name: "Targeting Computer (Missile Launcher)", rarity: 6+3, source: "" },
+  { name: "Bayonet (Missile Launcher)", rarity: 2, source: "" },
+  { name: "Stabilizer (Missile Launcher)", rarity: 4+2, source: "" },
+
+  // Melee
+  { name: "Serrated Blade (Sword)", rarity: 3+2, source: "" },
+  { name: "Electrified Blade (Sword)", rarity: 4+3, source: "" },
+  { name: "Electrified Serrated Blade (Sword)", rarity: 5+4, source: "" },
+  { name: "Stun Pack (Sword)", rarity: 5+4, source: "" },
+
+  { name: "Serrated Blade (Combat Knife)", rarity: 3+1, source: "" },
+
+  { name: "Serrated Blade (Machete)", rarity: 3+1, source: "" },
+
+  { name: "Curved Blade (Ripper)", rarity: 2, source: "" },
+  { name: "Extended Blade (Ripper)", rarity: 5+3, source: "" },
+  
+  { name: "Extra Flame Jets (Shishkebab)", rarity: 5+3, source: "" },
+
+  { name: "Serrated Blade (Switchblade)", rarity: 3+1, source: "" },
+  
+  { name: "Barbed (Baseball Bat)", rarity: 1, source: "" },
+  { name: "Spiked (Baseball Bat)", rarity: 2, source: "" },
+  { name: "Sharp (Baseball Bat)", rarity: 2, source: "" },
+  { name: "Chain-Wrapped (Baseball Bat)", rarity: 3+1, source: "" },
+  { name: "Bladed (Baseball Bat)", rarity: 4+2, source: "" },
+
+  { name: "Spiked (Board)", rarity: 1, source: "" },
+  { name: "Puncturing (Board)", rarity: 2+1, source: "" },
+  { name: "Bladed (Board)", rarity: 2+1, source: "" },
+
+  { name: "Spiked (Lead Pipe)", rarity: 1, source: "" },
+  { name: "Heavy (Lead Pipe)", rarity: 3+2, source: "" },
+  
+  { name: "Hooked (Pipe Wrench)", rarity: 1, source: "" },
+  { name: "Heavy (Pipe Wrench)", rarity: 2+1, source: "" },
+  { name: "Puncturing (Pipe Wrench)", rarity: 2+1, source: "" },
+  { name: "Extra Heavy (Pipe Wrench)", rarity: 3+2, source: "" },
+
+  { name: "Barbed (Pool Cue)", rarity: 1, source: "" },
+  { name: "Sharp (Pool Cue)", rarity: 1, source: "" },
+
+  { name: "Electrified (Baton)", rarity: 4+3, source: "" },
+  { name: "Stun Pack (Baton)", rarity: 4+3, source: "" },
+
+  { name: "Puncturing (Sledgehammer)", rarity: 3+2, source: "" },
+  { name: "Heavy (Sledgehammer)", rarity: 4+3, source: "" },
+
+  { name: "Heating Coil (Super Sledge)", rarity: 3+2, source: "" },
+  { name: "Stun Pack (Super Sledge)", rarity: 5+3, source: "" },
+
+  { name: "Bladed (Tire Iron)", rarity: 3+2, source: "" },
+  
+  { name: "Barbed (Walking Cane)", rarity: 1, source: "" },
+  { name: "Spiked (Walking Cane)", rarity: 1, source: "" },
+
+  { name: "Spiked (Boxing Glove)", rarity: 1, source: "" },
+  { name: "Puncturing (Boxing Glove)", rarity: 2+1, source: "" },
+  { name: "Lead Lining (Boxing Glove)", rarity: 2+1, source: "" },
+
+  { name: "Extra Claw (Deathclaw Gauntlet)", rarity: 1, source: "" },
+  
+  { name: "Sharp (Knuckles)", rarity: 1, source: "" },
+  { name: "Spiked (Knuckles)", rarity: 1, source: "" },
+  { name: "Puncturing (Knuckles)", rarity: 3, source: "" },
+  { name: "Bladed (Knuckles)", rarity: 3, source: "" },
+
+  { name: "Puncturing (Power Fist)", rarity: 1, source: "" },
+  { name: "Heating Coil (Power Fist)", rarity: 4+3, source: "" },
 ];
 
 export const legendaryBaseItems = [

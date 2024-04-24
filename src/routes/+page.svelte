@@ -39,6 +39,14 @@
     return list.some(item => item.source === "Homebrew");
   }
 
+  function disableHomebrew(lootables) {
+    while (checkForHomebrew(lootables)) {
+      const homebrewIdx = lootables.findIndex(i => i.source === 'Homebrew');
+      lootables.splice(homebrewIdx, 1);
+    }
+    return lootables;
+  }
+
   function updateList(event) {
     selectedName = '';
     selectedList = [];
@@ -54,6 +62,10 @@
     // attempt to find list in localstorage
     const storedList = getFromStorage(selectedName)?.filter(row => selectedList.map(sl => sl.name).includes(row.name));
     lootableList = storedList ? storedList : [...selectedList];
+    if (!storedList) {
+      // Homebrew needs to be explicitly added
+      disableHomebrew(lootableList);
+    }
     tableData = Object.entries(lootTable.distribute([...lootableList]));
     diceCount = lootTable.getDiceCount(lootableList);
     selectedList = selectedList.map(item => ({
