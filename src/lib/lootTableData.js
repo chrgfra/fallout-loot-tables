@@ -19,7 +19,6 @@ export function distribute(items) {
   items.sort(({rarity: a}, {rarity: b}) => sortByRarity(a, b));
 
   // table range
-  const size = items.length;
   const count = getDiceCount(items);
   if (count === 1) {
     return singleDieTable(items);
@@ -35,13 +34,12 @@ export function distribute(items) {
   const repeatedKeys = determineWhichIndicesToRepeat(listDiff, range);
 
   // rarity 0 count
-  const zeroes = items.filter(i => i.rarity === 0).length;
   let flipABit = true;
   let i = 0;
   let breaker = 0;
   while(Object.values(objTable).some(v => !v)) {
     const empty = Object.values(objTable).filter(v => !v).length;
-    if (breaker++ > 500) {
+    if (breaker++ > 5000) {
       console.log("Infinite loop detected, breaking.");
       break;
     }

@@ -63,6 +63,28 @@
       { key: "cost", label: "Cost" },
       { key: "rarity", label: "Rarity" },
     ],
+    'Melee Weapons': [
+      { key: "name", label: "Melee Weapon" },
+      { key: "skill", label: "Weapon Type" },
+      { key: "damage", label: "Damage Rating" },
+      { key: "effects", label: "Damage Effects" },
+      { key: "damageType", label: "Damage Type" },
+      { key: "qualities", label: "Qualities" },
+      { key: "weight", label: "Weight" },
+      { key: "cost", label: "Cost" },
+      { key: "rarity", label: "Rarity" },
+    ],
+    "Armor": [
+      { key: "name", label: "Armor Piece" },
+      { key: "pdr", label: 'Physical' },
+      { key: 'edr', label: "Energy" },
+      { key: 'rdr', label: "Radiaiton" },
+      { key: 'hp', label: "Health Points" },
+      { key: 'loc', label: "Locations Covered" },
+      { key: "weight", label: "Weight" },
+      { key: "cost", label: "Cost" },
+      { key: "rarity", label: "Rarity" },
+    ],
     "Beverages": [
       { key: "name", label: "Item" },
       { key: "hpHealed", label: "HP Healed" },
@@ -101,8 +123,15 @@
     </tbody>
   </table>
   {#each Object.keys(masterList[category]) as itemName}
-    <h3 key="entry-{itemName}-{category}">{masterList[category][itemName].name}</h3>
-    {@html masterList[category][itemName].description}
+    {#if category === 'Armor'}
+      {#if masterList[category][itemName].isSet && !masterList[category][itemName].secondarySetPiece}
+        <h3 key="armor-entry-{itemName}-{category}">{masterList[category][itemName].setName}</h3>
+        {@html masterList[category][itemName].description}
+      {/if}
+      {:else}
+      <h3 key="entry-{itemName}-{category}">{masterList[category][itemName].name}</h3>
+      {@html masterList[category][itemName].description}
+    {/if}
   {/each}
 {/each}
 

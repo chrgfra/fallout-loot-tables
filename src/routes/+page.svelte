@@ -1,6 +1,7 @@
 <script>
   import { browser } from '$app/environment';
-  import * as lists from '../lib/itemLists.js';
+  import { page } from '$app/stores';
+  import * as listsSource from '../lib/itemLists.js';
   import * as lootTable from '../lib/lootTableData.js';
 
   let selectedName = '';
@@ -29,6 +30,26 @@
   function camelToSpaces(camel) {
     return camel.charAt(0).toLocaleUpperCase() + camel.substring(1).replace(/([a-z0-9])([A-Z])/g, '$1 $2') 
   }
+
+  // filter out homebrew or just individual homebrew set pieces
+  const lists = Object.fromEntries(Object.entries(listsSource).map(([lName, aList]) => {
+    return [lName, aList.filter(item => {
+      if (item.source !== 'Homebrew') {
+        return true;
+      }
+      const homebrew = $page.url.searchParams.has('homebrew');
+      if (!homebrew) {
+        return false;
+      }
+      if (item.secondarySetPiece) {
+        return false;
+      }
+      return true;
+    }).map(item => ({
+      ...item,
+      name: item.setName ? `${item.setName} Piece` : item.name
+    }))];
+  }));
 
   const listNames = Object.keys(lists).map(k => ({
     value: k,
@@ -79,25 +100,46 @@
   function isInList(item) {
     const names = lootableList.map(i => i.name);
     const included = names.includes(item.name);
-    // console.log({names, included, item});
     return included;
   }
 
   function toggleItem(item) {
+    let changed;
     // add or remove from lootableList
     if (isInList(item)) {
       // remove it
       const idx = lootableList.findIndex(li => li.name === item.name);
       lootableList.splice(idx, 1);
+      changed = false;
     } else {
       // add it
       lootableList.push(item);
+      changed = true;
     }
     setStorage(selectedName, lootableList);
     tableData = Object.entries(lootTable.distribute([...lootableList]));
     diceCount = lootTable.getDiceCount(lootableList);
-    lootableList = lootableList;
     hasHomebrew = checkForHomebrew(lootableList);
+    return changed;
+  }
+
+  function setListSource(books) {
+    const isInBook = (n, source) => {
+      if (!source) return true;
+      if (source.startsWith("Wanderers") && n >= 3) return true;
+      if (source.startsWith("Settlers") && n >= 2) return true;
+      if (source.startsWith("Core")) return true;
+      return false;
+    };
+    selectedList = selectedList.map(item => {
+      if (
+        (isInBook(books, item.source) && !isInList(item)) ||
+        (!isInBook(books, item.source) && isInList(item))
+      ) {
+        item.checked = toggleItem(item);
+      }
+      return item;
+    });
   }
 </script>
 
@@ -110,11 +152,18 @@
       <option value={li.value}>{li.name}</option>
     {/each}
   </select>
+  {#if selectedName}
+  <span>
+    <input type="button" on:click={() => setListSource(1)} value="Core Book Only" />
+    <input type="button" on:click={() => setListSource(2)} value="Core and Settlers" />
+    <input type="button" on:click={() => setListSource(3)} value="All Official" />
+  </span>
+  {/if}
   <div class="columns">
     <div class="col1">
       <!-- checkboxes for each item in the list to add/remove from table -->
       {#each selectedList as li}
-        <div key={selectedName + li.name}>
+        <div key={selectedName + li.name + li.checked}>
           <label>
             <input key={`checkbox${selectedName + li.name}`} type="checkbox" on:click={toggleItem(li)} bind:checked={li.checked} />
             {li.name}
@@ -125,7 +174,7 @@
     <div class="col2">
       <!-- roll table -->
       {#if diceCount > 0}
-        <table>
+        <table key={`${selectedName}-${selectedList.map(i => i.checked ? i.name.charAt(0) : '').filter(v => !!v)}`}>
           <thead>
             <th>{diceCount}D20 Roll</th>
             <th>{camelToSpaces(selectedName)}</th>
@@ -133,7 +182,7 @@
           </thead>
           <tbody>
             {#each tableData as row}
-              <tr>
+              <tr key={selectedName + row[1].name}>
                 <td>{row[0]}</td>
                 <td>{row[1].name}</td>
                 <td>{row[1].source}</td>
