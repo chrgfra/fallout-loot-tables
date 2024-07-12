@@ -146,6 +146,12 @@
       return item;
     });
   }
+  function clearCache() {
+    if (browser) {
+      window.localStorage.clear();
+      window.location.reload();
+    }
+  };
 </script>
 
 <h1>Fallout 2d20 Loot Tables</h1>
@@ -162,6 +168,7 @@
     <input type="button" on:click={() => setListSource(1)} value="Core Book Only" />
     <input type="button" on:click={() => setListSource(2)} value="Core and Settlers" />
     <input type="button" on:click={() => setListSource(3)} value="All Official" />
+    <input type="button" on:click={clearCache} value="Clear Cache" />
   </span>
   {/if}
   <div class="columns">

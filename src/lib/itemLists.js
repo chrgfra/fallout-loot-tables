@@ -1,3 +1,30 @@
+const shuffle = () => Math.random() > Math.random() ? 1 : -1;
+const addGuns = (baseList) => {
+  const retArr = [];
+  const max = Math.floor(baseList.length / 3);
+  const randomAddMods = Math.floor(Math.random() * max);
+  const pickAGun = [...baseList];
+  for (let i = 0; i < randomAddMods; i++) {
+    const mods = ['Receiver', 'Barrel', 'Magazine', 'Stock', 'Sight', 'Muzzle'];
+    // add random base small gun with random amount of mods;
+    pickAGun.sort(shuffle);
+    const pickedGun = pickAGun.pop();
+    const addMods = [];
+    if (pickedGun.maxMods === 0) continue;
+    const pickLimit = pickedGun.maxMods ?? 6;
+    do {
+      mods.sort(shuffle);
+      addMods.push(mods.pop());
+    } while(Math.random() > 0.5 && addMods.length < (pickLimit - 1));
+    const item = {
+      ...pickedGun,
+    }
+    item.name = `${pickedGun.name} (with ${addMods.length} random mod${addMods.length > 1 ? 's' : ''})`;
+    item.rarity = pickedGun.rarity + addMods.length;
+    retArr.push(item);
+  }
+  return retArr;
+};
 export const ammo = [
   { name: '.38', rarity: 0, source: 'Core, 91' },                 // 39
   { name: '10mm', rarity: 0, source: 'Core, 91' },                // 37
@@ -36,46 +63,40 @@ export const ammo = [
   { name: 'Crossbow Bolt', rarity: 2, source: 'Wanderers, 57' },
   { name: 'Plasma Core', rarity: 6, source: 'Wanderers, 57' },
 ];
-export const smallGuns = [
-  { name: '.44 Pistol', rarity: 2, source: 'Core, 95' },
+const baseSmallGuns = [
+  { name: '.44 Pistol', rarity: 2, source: 'Core, 95', maxMods: 4 },
   { name: '10mm Pistol', rarity: 1, source: 'Core, 95' },
-  { name: '10mm Auto Pistol (Automatic Receiver)', rarity: 2, source: 'Core, 95' },
-  { name: 'Flare Gun', rarity: 1, source: 'Core, 95' },
+  { name: 'Flare Gun', rarity: 1, source: 'Core, 95', maxMods: 0 },
   { name: 'Assault Rifle', rarity: 2, source: 'Core, 95' },
-  { name: 'Combat Rifle', rarity: 2, source: 'Core, 95' },
-  { name: 'Gauss Rifle', rarity: 4, source: 'Core, 95' },
+  { name: 'Combat Rifle', rarity: 2, source: 'Core, 95',  },
+  { name: 'Gauss Rifle', rarity: 4, source: 'Core, 95', maxMods: 5 },
   { name: 'Hunting Rifle', rarity: 2, source: 'Core, 95' },
-  { name: 'Scoped Hunting Rifle (Long Barrel, Short Scope)', rarity: 3, source: 'Core, 95' },
-  { name: 'Submachine Gun', rarity: 1, source: 'Core, 95' },
+  { name: 'Submachine Gun', rarity: 1, source: 'Core, 95', maxMods: 5 },
   { name: 'Combat Shotgun', rarity: 2, source: 'Core, 95' },
-  { name: 'Double-Barrel Shotgun', rarity: 1, source: 'Core, 95' },
+  { name: 'Double-Barrel Shotgun', rarity: 1, source: 'Core, 95', maxMods: 5 },
   { name: 'Pipe Bolt-Action', rarity: 0, source: 'Core, 95' },
-  { name: 'Pipe Bolt-Action Rifle (Long Barrel, Standard Stock)', rarity: 0, source: 'Core, 95' },
   { name: 'Pipe Gun', rarity: 0, source: 'Core, 95' },
-  { name: 'Pipe Rifle (Long Barrel, Standard Stock)', rarity: 0, source: 'Core, 95' },
-  { name: 'Auto Pipe Gun (Automatic Receiver)', rarity: 0, source: 'Core, 95' },
   { name: 'Pipe Revolver', rarity: 0, source: 'Core, 95' },
-  { name: 'Railway Rifle', rarity: 4, source: 'Core, 95' },
-  { name: 'Syringer', rarity: 2, source: 'Core, 95' },
-  { name: 'M79 Grenade Launcher', rarity: 3, source: 'Settlers, 90' },
-  { name: '.357 Magnum Revolver', rarity: 2, source: 'Wanderers, 60' },
+  { name: 'Railway Rifle', rarity: 4, source: 'Core, 95', maxMods: 5 },
+  { name: 'Syringer', rarity: 2, source: 'Core, 95', maxMods: 3 },
+  { name: 'M79 Grenade Launcher', rarity: 3, source: 'Settlers, 90', maxMods: 2 },
+  { name: '.357 Magnum Revolver', rarity: 2, source: 'Wanderers, 60', maxMods: 3 },
   { name: '12.7mm Pistol', rarity: 4, source: 'Wanderers, 60' },
-  { name: '12.7mm SMG', rarity: 4, source: 'Wanderers, 60' },
-  { name: '25mm Grenade APW', rarity: 4, source: 'Wanderers, 60' },
-  { name: '9mm Pistol', rarity: 2, source: 'Wanderers, 60' },
-  { name: 'Anti-Materiel Rifle', rarity: 4, source: 'Wanderers, 60' },
-  { name: 'Battle Rifle', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Black Powder Blunderbuss', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Black Powder Pistol', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Black Powder Rifle', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Gauss Pistol', rarity: 5, source: 'Wanderers, 60' },
-  { name: 'Gauss Shotgun', rarity: 5, source: 'Wanderers, 60' },
-  { name: 'Lever-Action Rifle', rarity: 3, source: 'Wanderers, 60' },
+  { name: '12.7mm SMG', rarity: 4, source: 'Wanderers, 60', maxMods: 5 },
+  { name: '25mm Grenade APW', rarity: 4, source: 'Wanderers, 60', maxMods: 3 },
+  { name: '9mm Pistol', rarity: 2, source: 'Wanderers, 60', maxMods: 5 },
+  { name: 'Anti-Materiel Rifle', rarity: 4, source: 'Wanderers, 60', maxMods: 4 },
+  { name: 'Battle Rifle', rarity: 3, source: 'Wanderers, 60', maxMods: 4 },
+  { name: 'Black Powder Blunderbuss', rarity: 3, source: 'Wanderers, 60', maxMods: 0 },
+  { name: 'Black Powder Pistol', rarity: 3, source: 'Wanderers, 60', maxMods: 0 },
+  { name: 'Black Powder Rifle', rarity: 3, source: 'Wanderers, 60', maxMods: 1 },
+  { name: 'Gauss Pistol', rarity: 5, source: 'Wanderers, 60', maxMods: 3 },
+  { name: 'Gauss Shotgun', rarity: 5, source: 'Wanderers, 60', maxMods: 2 },
+  { name: 'Lever-Action Rifle', rarity: 3, source: 'Wanderers, 60', maxMods: 5 },
   { name: 'Light Machine Gun', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Pump-Action Shotgun', rarity: 1, source: 'Wanderers, 60' },
+  { name: 'Pump-Action Shotgun', rarity: 1, source: 'Wanderers, 60', maxMods: 5 },
   { name: 'Radium Rifle', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Sniper Rifle', rarity: 4, source: 'Wanderers, 60' },
-  // Homebrew
+  { name: 'Sniper Rifle', rarity: 4, source: 'Wanderers, 60', maxMods: 3 },
   {
     name: "Crusader Pistol", 
     rarity: 5, 
@@ -127,26 +148,30 @@ export const smallGuns = [
     `,
   }
 ];
-export const energyWeapons = [
-  { name: 'Institute Laser', rarity: 2, source: 'Core, 101' },
-  { name: 'Institute Rifle (Long Barrel, Standard Stock)', rarity: 2, source: 'Core, 101' },
-  { name: 'Laser Musket', rarity: 1, source: 'Core, 101' },
-  { name: 'Laser Gun', rarity: 2, source: 'Core, 101' },
-  { name: 'Laser Rifle (Long Barrel, Standard Stock)', rarity: 2, source: 'Core, 101' },
-  { name: 'Plasma Gun', rarity: 3, source: 'Core, 101' },
-  { name: 'Plasma Rifle (Long Barrel, Standard Stock)', rarity: 3, source: 'Core, 101' },
-  { name: 'Gamma Gun', rarity: 5, source: 'Core, 101' },
-  { name: 'Acid Soaker', rarity: 3, source: 'Settlers, 91' },
-  { name: 'Alien Blaster', rarity: 5, source: 'Settlers, 91' },
-  // { name: 'Assaultron Head Laser', rarity: 4, source: 'Settlers, 91' },
-  { name: 'Assaultron Head', rarity: 3, source: 'Wanderers, 65' },
-  { name: 'Mesmetron', rarity: 4, source: 'Settlers, 91' },
-  { name: 'Alien Atomizer', rarity: 5, source: 'Wanderers, 65' },
-  { name: 'Alien Disintegrator', rarity: 5, source: 'Wanderers, 65' },
-  { name: 'Arc Welder', rarity: 4, source: 'Wanderers, 65' },
-  { name: 'Microwave Emitter', rarity: 5, source: 'Wanderers, 65' },
-  // { name: 'Tesla Rifle', rarity: 4, source: 'Settlers, 91' },
-  { name: 'Tesla Rifle', rarity: 4, source: 'Wanderers, 65' },
+export const smallGuns = [
+  ...baseSmallGuns,
+  { name: '10mm Auto Pistol (Automatic Receiver)', rarity: 2, source: 'Core, 95' },
+  { name: 'Scoped Hunting Rifle (Long Barrel, Short Scope)', rarity: 3, source: 'Core, 95' },
+  { name: 'Pipe Bolt-Action Rifle (Long Barrel, Standard Stock)', rarity: 0, source: 'Core, 95' },
+  { name: 'Pipe Rifle (Long Barrel, Standard Stock)', rarity: 0, source: 'Core, 95' },
+  { name: 'Auto Pipe Gun (Automatic Receiver)', rarity: 0, source: 'Core, 95' },
+  ...addGuns(baseSmallGuns),
+];
+const baseEnergyWeapons = [
+  { name: 'Institute Laser', rarity: 2, source: 'Core, 101', maxMods: 5 },
+  { name: 'Laser Musket', rarity: 1, source: 'Core, 101', maxMods: 5 },
+  { name: 'Laser Gun', rarity: 2, source: 'Core, 101', maxMods: 5 },
+  { name: 'Plasma Gun', rarity: 3, source: 'Core, 101', maxMods: 4 },
+  { name: 'Gamma Gun', rarity: 5, source: 'Core, 101', maxMods: 2 },
+  { name: 'Acid Soaker', rarity: 3, source: 'Settlers, 91', maxMods: 2 },
+  { name: 'Alien Blaster', rarity: 5, source: 'Settlers, 91', maxMods: 1 },
+  { name: 'Assaultron Head', rarity: 3, source: 'Wanderers, 65', maxMods: 1 },
+  { name: 'Mesmetron', rarity: 4, source: 'Settlers, 91', maxMods: 3 },
+  { name: 'Alien Atomizer', rarity: 5, source: 'Wanderers, 65', maxMods: 0 },
+  { name: 'Alien Disintegrator', rarity: 5, source: 'Wanderers, 65', maxMods: 0 },
+  { name: 'Arc Welder', rarity: 4, source: 'Wanderers, 65', maxMods: 0 },
+  { name: 'Microwave Emitter', rarity: 5, source: 'Wanderers, 65', maxMods: 0 },
+  { name: 'Tesla Rifle', rarity: 4, source: 'Wanderers, 65', MaxMods: 2 },
   // Homebrew
   {
     name: "Enclave Plasma Gun", 
@@ -174,6 +199,14 @@ export const energyWeapons = [
     </ul>
     `,
   },
+];
+export const energyWeapons = [
+  ...baseEnergyWeapons,
+  { name: 'Institute Rifle (Long Barrel, Standard Stock)', rarity: 2, source: 'Core, 101' },
+  { name: 'Laser Rifle (Long Barrel, Standard Stock)', rarity: 2, source: 'Core, 101' },
+  { name: 'Plasma Rifle (Long Barrel, Standard Stock)', rarity: 3, source: 'Core, 101' },
+  // { name: 'Assaultron Head Laser', rarity: 4, source: 'Settlers, 91' },
+  // { name: 'Tesla Rifle', rarity: 4, source: 'Settlers, 91' },
   { name: "Enclave Plasma Rifle (Standard Stock)", rarity: 4, source: 'Homebrew', skip: true },
   { name: "Enclave Plasma Flamer (Beta Wave Tuner, Flamer Barrel, Standard Stock)", rarity: 5, source: 'Homebrew', skip: true },
   { name: "Enclave Tactical Plasma Thrower (Beta Wave Tuner, Reflex Sight, Flamer Barrel)", rarity: 6, source: 'Homebrew', skip: true },
@@ -181,32 +214,34 @@ export const energyWeapons = [
   { name: "Enclave Plasma Sniper Rifle (Boosted Capacitor, Sniper Barrel, Marksman's Stock, Short Scope)", rarity: 7, source: 'Homebrew', skip: true },
   { name: "Recoil-Compensated Enclave Plasma Rifle (Photon Agitator, Automatic Barrel, Recoil-Compensating Stock, Reflex Sight)", rarity: 8, source: 'Homebrew', skip: true },
   { name: "Excited Enclave Plasma Pistol (Photon Exciter, Sharpshooter's Grip, Reflex Sight)", rarity: 7, source: 'Homebrew', skip: true },
+  ...addGuns(baseEnergyWeapons),
 ];
-export const bigGuns = [
-  { name: 'Fat Man', rarity: 4, source: 'Core, 106' },
-  { name: 'Flamer', rarity: 3, source: 'Core, 106' },
-  { name: 'Gatling Laser', rarity: 3, source: 'Core, 106' },
-  { name: 'Heavy Incinerator', rarity: 4, source: 'Core, 106' },
-  { name: 'Junk Jet', rarity: 3, source: 'Core, 106' },
-  { name: 'Minigun', rarity: 2, source: 'Core, 106' },
-  { name: 'Missile Launcher', rarity: 4, source: 'Core, 106' },
-  { name: 'Broadsider', rarity: 5, source: 'Settlers, 94' },
-  { name: 'Cryolator', rarity: 4, source: 'Settlers, 94' },
-  { name: 'Harpoon Gun', rarity: 5, source: 'Settlers, 94' },
-  { name: '.50 Cal Machine Gun', rarity: 3, source: 'Wanderers, 67' },
-  { name: 'Auto Grenade Launcher', rarity: 4, source: 'Wanderers, 67' },
-  { name: 'Drone Cannon', rarity: 5, source: 'Wanderers, 67' },
+const baseBigGuns = [
+  { name: 'Fat Man', rarity: 4, source: 'Core, 106', maxMods: 0 },
+  { name: 'Flamer', rarity: 3, source: 'Core, 106', maxMods: 4 },
+  { name: 'Gatling Laser', rarity: 3, source: 'Core, 106', maxMods: 4 },
+  { name: 'Heavy Incinerator', rarity: 4, source: 'Core, 106', maxMods: 0 },
+  { name: 'Junk Jet', rarity: 3, source: 'Core, 106', maxMods: 4 },
+  { name: 'Minigun', rarity: 2, source: 'Core, 106', maxMods: 3 },
+  { name: 'Missile Launcher', rarity: 4, source: 'Core, 106', maxMods: 3 },
+  { name: 'Broadsider', rarity: 5, source: 'Settlers, 94', maxMods: 2 },
+  { name: 'Cryolator', rarity: 4, source: 'Settlers, 94', maxMods: 4 },
+  { name: 'Harpoon Gun', rarity: 5, source: 'Settlers, 94', maxMods: 2 },
+  { name: '.50 Cal Machine Gun', rarity: 3, source: 'Wanderers, 67', maxMods: 1 },
+  { name: 'Auto Grenade Launcher', rarity: 4, source: 'Wanderers, 67', maxMods: 2 },
+  { name: 'Drone Cannon', rarity: 5, source: 'Wanderers, 67', maxMods: 0 },
   { name: 'Gatling Gun', rarity: 1, source: 'Wanderers, 67' },
-  { name: 'Gatling Plasma', rarity: 4, source: 'Wanderers, 67' },
-  { name: 'Gauss Minigun', rarity: 6, source: 'Wanderers, 67' },
-  { name: 'Plasma Caster', rarity: 5, source: 'Wanderers, 67' },
-  { name: 'Tesla Cannon', rarity: 5, source: 'Wanderers, 67' },
+  { name: 'Gatling Plasma', rarity: 4, source: 'Wanderers, 67', maxMods: 4 },
+  { name: 'Gauss Minigun', rarity: 6, source: 'Wanderers, 67', maxMods: 3 },
+  { name: 'Plasma Caster', rarity: 5, source: 'Wanderers, 67', maxMods: 2 },
+  { name: 'Tesla Cannon', rarity: 5, source: 'Wanderers, 67', maxMods: 0 },
   // Homebrew
   // Pepper Shaker, Cremator, Hellstorm Missile Launcher
   {
     name: "Pepper Shaker", 
     rarity: 5, 
     source: "Homebrew", 
+    maxMods: 3,
     type: "Big Guns", 
     damage: 6, 
     effects: ['Vicious'], 
@@ -256,6 +291,7 @@ export const bigGuns = [
     name: "Cremator", 
     rarity: 5, 
     source: "Homebrew", 
+    maxMods: 3,
     type: "Big Guns", 
     damage: 10, 
     effects: ['Breaking', 'Persistent'],
@@ -309,6 +345,7 @@ export const bigGuns = [
     name: "Hellfire Missile Launcher", 
     rarity: 5, 
     source: "Homebrew", 
+    maxMods: 2,
     type: "Big Guns", 
     damage: 10, 
     effects: [],
@@ -352,10 +389,13 @@ export const bigGuns = [
     `,
   },
 ];
-export const rangedWeapons = [ 
-  ...smallGuns, ...energyWeapons, ...bigGuns,
+export const bigGuns = [...baseBigGuns, ...addGuns(baseBigGuns)];
+const bows = [
   { name: 'Bow', rarity: 1, source: 'Wanderers, 73' },
   { name: 'Crossbow', rarity: 2, source: 'Wanderers, 73' },
+];
+export const rangedWeapons = [ 
+  ...smallGuns, ...energyWeapons, ...bigGuns, ...bows,
 ];
 export const meleeWeapons = [
   { name: 'Sword', rarity: 2, source: 'Core, 111' },
@@ -716,12 +756,7 @@ export const clothing = [
   { name: 'Spacesuit Helmet', rarity: 5, source: 'Wanderers, 85' },
   { name: 'Hunter\'s Hood', rarity: 2, source: 'Wanderers, 85' },
 ];
-export const armor = [
-  // dog
-  { name: 'Dog Helmet', rarity: 2, source: 'Core, 123' },
-  { name: 'Dog Armor (Light)', rarity: 1, source: 'Core, 123' },
-  { name: 'Dog Armor (Medium)', rarity: 2, source: 'Core, 123' },
-  { name: 'Dog Armor (Heavy)', rarity: 3, source: 'Core, 123' },
+const armorPieces = [
   // armor pieces
   { name: 'Raider Armor Piece (Standard)', rarity: 0, source: 'Core, 130' },
   { name: 'Raider Armor Piece (Sturdy)', rarity: 1, source: 'Core, 130' },
@@ -749,8 +784,20 @@ export const armor = [
   { name: 'Robot Armor Piece (Sturdy)', rarity: 3, source: 'Wanderers, 92' },
   { name: 'Robot Armor Piece (Heavy)', rarity: 4, source: 'Wanderers, 92' },
   { name: 'Wood Armor Piece', rarity: 0, source: 'Wanderers, 93' },
-  // Power Armor
-  { name: 'Power Armor Frame', rarity: 4, source: 'Core, 137' },
+];
+export const armor = [
+  // dog
+  { name: 'Dog Helmet', rarity: 2, source: 'Core, 123' },
+  { name: 'Dog Armor (Light)', rarity: 1, source: 'Core, 123' },
+  { name: 'Dog Armor (Medium)', rarity: 2, source: 'Core, 123' },
+  { name: 'Dog Armor (Heavy)', rarity: 3, source: 'Core, 123' },
+  ...armorPieces,
+  // whole armor
+  { name: 'Chinese Stealth Armor', rarity: 6, source: 'Wanderers, 88' },
+  { name: 'Diving Suit', rarity: 3, source: 'Wanderers, 88' },
+  { name: 'Recon Armor', rarity: 4, source: 'Wanderers, 91' },
+];
+const powerArmorPieces = [
   { name: 'Raider Power Armor Piece', rarity: 2, source: 'Core, 137' },
   { name: 'T-45 Power Armor Piece', rarity: 2, source: 'Core, 137' },
   { name: 'T-51 Power Armor Piece', rarity: 3, source: 'Core, 137' },
@@ -970,25 +1017,14 @@ export const armor = [
     cost: 100,
     description: ``,
   },
-  /**
-   * raid   7/7/10
-   * t45    7/7/14
-   * t51    9/9/18
-   * t60    10/10/21
-   * x01    12/12/24
-   * exc    7/7/14
-   * hell   9/9/15
-   * t65    12/10/22
-   * 
-   * a) M = L/K;
-   *    K = L/M;
-   * b) N = K/L;
-   *    K = NL
-   */
-  // whole armor
-  { name: 'Chinese Stealth Armor', rarity: 6, source: 'Wanderers, 88' },
-  { name: 'Diving Suit', rarity: 3, source: 'Wanderers, 88' },
-  { name: 'Recon Armor', rarity: 4, source: 'Wanderers, 91' },
+];
+export const powerArmor = [
+  { name: 'Power Armor Frame', rarity: 4, source: 'Core, 137' },
+  ...powerArmorPieces,
+];
+export const allArmor = [
+  ...armor,
+  ...powerArmor,
 ];
 export const rawMeat = [
   { name: 'Bloatfly Meat', rarity: 0, source: 'Core, 149' },
@@ -1416,7 +1452,6 @@ export const oddities = [
   { name: 'Magazine', rarity: 3, source: '' },
   { name: 'Locked Container', rarity: 4, source: '' },
 ];
-// Syringer Ammo
 export const syringerAmmo = [
   { name: 'Berserk', rarity: 50, source: 'Core, 93' },
   { name: 'Bleed-Out', rarity: 17, source: 'Core, 93' },
@@ -1429,7 +1464,6 @@ export const syringerAmmo = [
   { name: 'Yellow Belly', rarity: 55, source: 'Core, 93' },
   { name: 'Cazadores Sting', rarity: 75, source: 'Wanderers, 59' },
 ];
-// Arrows & Bolts
 export const specialArrows = [
   { name: 'Cryo', rarity: 3, source: 'Wanderers, 59' },
   { name: 'Explosive', rarity: 2, source: 'Wanderers, 59' },
@@ -1438,11 +1472,7 @@ export const specialArrows = [
   { name: 'Plasma', rarity: 4, source: 'Wanderers, 59' },
   { name: 'Poison', rarity: 1, source: 'Wanderers, 59' },
 ];
-// rarityValue = (complexity + rarityValue)^(rarityRating === 'Rare' ? 2 : 1)
-export const looseMods = [
-  // use cost mod for rarity
-  // small guns
-  // receiver
+const smallGunReceivers = [
   { name: "Small Gun Receiver: Hardend", rarity: 20, source: "Core, 100" },
   { name: "Small Gun Receiver: Powerful", rarity: 25, source: "Core, 100" },
   { name: "Small Gun Receiver: Advanced", rarity: 35, source: "Core, 100" },
@@ -1454,45 +1484,8 @@ export const looseMods = [
   { name: "Small Gun Receiver: .45", rarity: 19, source: "Core, 100" },
   { name: "Small Gun Receiver: .50", rarity: 30, source: "Core, 100" },
   { name: "Small Gun Receiver: Automatic Piston", rarity: 75, source: "Core, 100" },
-  // barrel
-  { name: "Small Gun Barrel: Snubnose", rarity: 0, source: "Core, 100" },
-  { name: "Small Gun Barrel: Bull", rarity: 10, source: "Core, 100" },
-  { name: "Small Gun Barrel: Long", rarity: 20, source: "Core, 100" },
-  { name: "Small Gun Barrel: Ported", rarity: 35, source: "Core, 100" },
-  { name: "Small Gun Barrel: Vented", rarity: 36, source: "Core, 100" },
-  { name: "Small Gun Barrel: Sawed-Off", rarity: 3, source: "Core, 100" },
-  { name: "Small Gun Barrel: Shielded", rarity: 37, source: "Core, 100" },
-  { name: "Small Gun Barrel: Finned", rarity: 15, source: "Core, 100" },
-  // Capacitor
   { name: "Small Gun Capacitor: Full Capacitors", rarity: 37, source: "Core, 100" },
   { name: "Small Gun Capacitor: Capacitor-Boosting Coil", rarity: 82, source: "Core, 100" },
-  // Magazine
-  { name: "Small Gun Magazine: Large Magazine", rarity: 8, source: "Core, 100" },
-  { name: "Small Gun Magazine: Quick-Eject Mag", rarity: 8, source: "Core, 100" },
-  { name: "Small Gun Magazine: Large Quick-Eject Mag", rarity: 23, source: "Core, 100" },
-  // Grip
-  { name: "Small Gun Grip: Comfort Grip", rarity: 6, source: "Core, 101" },
-  { name: "Small Gun Grip: Sharpshooter's Grip", rarity: 10, source: "Core, 101" },
-  // Stock
-  { name: "Small Gun Stock: Full Stock", rarity: 10, source: "Core, 101" },
-  { name: "Small Gun Stock: Marksman's Stock", rarity: 20, source: "Core, 101" },
-  { name: "Small Gun Stock: Recoil-Compensating Stock", rarity: 3, source: "Core, 101" }, // Really? Cost: +3?
-  // Sight
-  { name: "Small Gun Sight: Reflex Sight", rarity: 14, source: "Core, 101" },
-  { name: "Small Gun Sight: Short Scope", rarity: 11, source: "Core, 101" },
-  { name: "Small Gun Sight: Long Scope", rarity: 29, source: "Core, 101" },
-  { name: "Small Gun Sight: Short Night Vision Scope", rarity: 38, source: "Core, 101" },
-  { name: "Small Gun Sight: Long Night Vision Scope", rarity: 50, source: "Core, 101" },
-  { name: "Small Gun Sight: Recon Scope", rarity: 59, source: "Core, 101" },
-  // Muzzle
-  { name: "Small Gun Muzzle: Bayonet", rarity: 10, source: "Core, 101" },
-  { name: "Small Gun Muzzle: Compensator", rarity: 15, source: "Core, 101" },
-  { name: "Small Gun Muzzle: Muzzle Break", rarity: 30, source: "Core, 101" },
-  { name: "Small Gun Muzzle: Suppressor", rarity: 45, source: "Core, 101" },
-  // M79 Grenade Launcher
-  { name: 'M79 Grenade Launcher Barrel: Long Barrel', rarity: 40, source: 'Settlers, 90' },
-  { name: 'M79 Grenade Launcher Stock: Full Stock', rarity: 10, source: 'Settlers, 90' },
-  
   { name: 'Small Gun Receiver: Armor Piercing Receiver', rarity: 3, source: 'Wanderers, 81' },
   { name: 'Small Gun Receiver: Armor Piercing Automatic Receiver', rarity: 40, source: 'Wanderers, 81' },
   { name: 'Small Gun Receiver: Hardened Automatic Receiver', rarity: 58, source: 'Wanderers, 81' },
@@ -1502,23 +1495,82 @@ export const looseMods = [
   { name: 'Small Gun Receiver: Hardened Piercing Auto Receiver', rarity: 78, source: 'Wanderers, 81' },
   { name: 'Small Gun Receiver: 9mm Receiver', rarity: 10, source: 'Wanderers, 81' },
   { name: 'Small Gun Receiver: .357 Receiver', rarity: 35, source: 'Wanderers, 81' },
-
-  // Energy Weapons
-  // Laser Musket Capacitor
+];
+const smallGunBarrels = [
+  { name: "Small Gun Barrel: Snubnose", rarity: 0, source: "Core, 100" },
+  { name: "Small Gun Barrel: Bull", rarity: 10, source: "Core, 100" },
+  { name: "Small Gun Barrel: Long", rarity: 20, source: "Core, 100" },
+  { name: "Small Gun Barrel: Ported", rarity: 35, source: "Core, 100" },
+  { name: "Small Gun Barrel: Vented", rarity: 36, source: "Core, 100" },
+  { name: "Small Gun Barrel: Sawed-Off", rarity: 3, source: "Core, 100" },
+  { name: "Small Gun Barrel: Shielded", rarity: 37, source: "Core, 100" },
+  { name: "Small Gun Barrel: Finned", rarity: 15, source: "Core, 100" },
+  { name: 'M79 Grenade Launcher Barrel: Long Barrel', rarity: 40, source: 'Settlers, 90' },
+];
+const smallGunMagazines = [
+  { name: "Small Gun Magazine: Large Magazine", rarity: 8, source: "Core, 100" },
+  { name: "Small Gun Magazine: Quick-Eject Mag", rarity: 8, source: "Core, 100" },
+  { name: "Small Gun Magazine: Large Quick-Eject Mag", rarity: 23, source: "Core, 100" },
+];
+const smallGunGripsAndStocks = [
+  // Grip
+  { name: "Small Gun Grip: Comfort Grip", rarity: 6, source: "Core, 101" },
+  { name: "Small Gun Grip: Sharpshooter's Grip", rarity: 10, source: "Core, 101" },
+  // Stock
+  { name: "Small Gun Stock: Full Stock", rarity: 10, source: "Core, 101" },
+  { name: "Small Gun Stock: Marksman's Stock", rarity: 20, source: "Core, 101" },
+  { name: "Small Gun Stock: Recoil-Compensating Stock", rarity: 3, source: "Core, 101" }, // Really? Cost: +3?
+  { name: 'M79 Grenade Launcher Stock: Full Stock', rarity: 10, source: 'Settlers, 90' },
+];
+const smallGunSights = [
+  { name: "Small Gun Sight: Reflex Sight", rarity: 14, source: "Core, 101" },
+  { name: "Small Gun Sight: Short Scope", rarity: 11, source: "Core, 101" },
+  { name: "Small Gun Sight: Long Scope", rarity: 29, source: "Core, 101" },
+  { name: "Small Gun Sight: Short Night Vision Scope", rarity: 38, source: "Core, 101" },
+  { name: "Small Gun Sight: Long Night Vision Scope", rarity: 50, source: "Core, 101" },
+  { name: "Small Gun Sight: Recon Scope", rarity: 59, source: "Core, 101" },
+];
+const smallGunMuzzles = [
+  { name: "Small Gun Muzzle: Bayonet", rarity: 10, source: "Core, 101" },
+  { name: "Small Gun Muzzle: Compensator", rarity: 15, source: "Core, 101" },
+  { name: "Small Gun Muzzle: Muzzle Break", rarity: 30, source: "Core, 101" },
+  { name: "Small Gun Muzzle: Suppressor", rarity: 45, source: "Core, 101" },
+];
+export const smallGunMods = [
+  ...smallGunReceivers,
+  ...smallGunBarrels,
+  ...smallGunMagazines,
+  ...smallGunGripsAndStocks,
+  ...smallGunSights,
+  ...smallGunMuzzles
+];
+const energyWeaponCapacitors = [
   { name: "Laser Musket Capacitor: Three-Crank Capacitor", rarity: 4, source: "Core, 103" },
   { name: "Laser Musket Capacitor: Four-Crank Capacitor", rarity: 8, source: "Core, 103" },
   { name: "Laser Musket Capacitor: Five-Crank Capacitor", rarity: 12, source: "Core, 103" },
   { name: "Laser Musket Capacitor: Six-Crank Capacitor", rarity: 16, source: "Core, 103" },
-  // Gamma Gun Unique Mods
-  { name: "Gamma Gun Dish: Deep Dish", rarity: 72, source: "Core, 104" },
-  { name: "Gamma Gun Muzzle: Electric Signal Carrier Antennae", rarity: 30, source: "Core, 104" },
-  { name: "Gamma Gun Muzzle: Signal Repeater", rarity: 60, source: "Core, 104" },
-  // Capacitors
   { name: "Energy Weapon Capacitor: Beta Wave Tuner", rarity: 30, source: "Core, 104" },
   { name: "Energy Weapon Capacitor: Boosted Capacitor", rarity: 35, source: "Core, 104" },
   { name: "Energy Weapon Capacitor: Photon Excitor", rarity: 30, source: "Core, 104" },
   { name: "Energy Weapon Capacitor: Photon Agitator", rarity: 35, source: "Core, 104" },
-  // Barrel
+  { name: 'Acid Soaker Concentrate: Caustic', rarity: 30, source: 'Settlers, 91' },
+  { name: 'Assaultron Head Capacitor: Mk III', rarity: 4, source: 'Settlers, 93' },
+  { name: 'Assaultron Head Capacitor: MK IV', rarity: 8, source: 'Settlers, 93' },
+  { name: 'Assaultron Head Capacitor: Mk V', rarity: 12, source: 'Settlers, 93' },
+  { name: 'Assaultron Head Capacitor: Mk VI', rarity: 16, source: 'Settlers, 93' },
+  { name: 'Energy Weapon Capacitor: Gamma Wave Emitter', rarity: 14, source: 'Wanderers, 83' },
+  { name: 'Energy Weapon Capacitor: Maximized Capacitor', rarity: 17, source: 'Wanderers, 83' },
+  { name: 'Energy Weapon Capacitor: Boosted Photon Agitator', rarity: 20, source: 'Wanderers, 83' },
+  { name: 'Energy Weapon Capacitor: Boosted Gamma Wave Emitter', rarity: 23, source: 'Wanderers, 83' },
+  { name: 'Energy Weapon Capacitor: Overcharged Capacitor', rarity: 42, source: 'Wanderers, 83' },
+];
+const energyWeaponMagazines = [
+  { name: 'Alien Blaster Magazine: Fusion Mag', rarity: 21*6, source: 'Settlers, 92' },
+  { name: 'Acid Soaker Container: Large Ampoule', rarity: 22, source: 'Settlers, 91' },
+  { name: 'Acid Soaker Container: Large Vial', rarity: 40, source: 'Settlers, 91' },
+];
+const energyWeaponBarrels = [
+  { name: "Gamma Gun Dish: Deep Dish", rarity: 72, source: "Core, 104" },
   { name: "Energy Weapon Barrel: Bracketed Short Barrel", rarity: 6, source: "Core, 104" },
   { name: "Energy Weapon Barrel: Long Barrel", rarity: 20, source: "Core, 104" },
   { name: "Energy Weapon Barrel: Splitter", rarity: 31, source: "Core, 104" },
@@ -1527,132 +1579,137 @@ export const looseMods = [
   { name: "Energy Weapon Barrel: Improved Barrel", rarity: 26, source: "Core, 105" },
   { name: "Energy Weapon Barrel: Sniper Barrel", rarity: 30, source: "Core, 105" },
   { name: "Energy Weapon Barrel: Flamer Barrel", rarity: 35, source: "Core, 105" },
-  // Grip
+  { name: 'Energy Weapon Barrel: Improved Long Barrel', rarity: 15, source: 'Wanderers, 83' },
+  { name: 'Energy Weapon Barrel: Improved Automatic Barrel', rarity: 18, source: 'Wanderers, 83' },
+  { name: 'Energy Weapon Barrel: Improved Sniper Barrel', rarity: 21, source: 'Wanderers, 83' },
+  { name: 'Energy Weapon Barrel: Improved Splitter', rarity: 25, source: 'Wanderers, 83' },
+];
+const energyWeaponGripsAndStocks = [
   { name: "Energy Weapon Grip: Sharpshooter's Grip", rarity: 10, source: "Core, 105" },
   // Stock
   { name: "Energy Weapon Stock: Standard Stock", rarity: 10, source: "Core, 105" },
   { name: "Energy Weapon Stock: Full Stock", rarity: 15, source: "Core, 105" },
   { name: "Energy Weapon Stock: Marksman's Stock", rarity: 20, source: "Core, 105" },
   { name: "Energy Weapon Stock: Recoil-Compensating Stock", rarity: 3, source: "Core, 105" }, // Come now, cost +3 again?
-  // Sights
+];
+const energyWeaponSights = [
   { name: "Energy Weapon Sight: Reflex Sight", rarity: 14, source: "Core, 105" },
   { name: "Energy Weapon Sight: Short Scope", rarity: 11, source: "Core, 105" },
   { name: "Energy Weapon Sight: Long Scope", rarity: 29, source: "Core, 105" },
   { name: "Energy Weapon Sight: Short Night Vision Scope", rarity: 38, source: "Core, 105" },
   { name: "Energy Weapon Sight: Long Night Vision Scope", rarity: 50, source: "Core, 105" },
   { name: "Energy Weapon Sight: Recon Scope", rarity: 59, source: "Core, 105" },
-  // Muzzle
+];
+const energyWeaponMuzzles = [
+  { name: "Gamma Gun Muzzle: Electric Signal Carrier Antennae", rarity: 30, source: "Core, 104" },
+  { name: "Gamma Gun Muzzle: Signal Repeater", rarity: 60, source: "Core, 104" },
   { name: "Energy Weapon Muzzle: Beam Splitter", rarity: 15, source: "Core, 105" },
   { name: "Energy Weapon Muzzle: Beam Focuser", rarity: 20, source: "Core, 105" },
   { name: "Energy Weapon Muzzle: Gyro Compensating Lens", rarity: 25, source: "Core, 105" },
-  // Acid Soaker
-  { name: 'Acid Soaker Concentrate: Caustic', rarity: 30, source: 'Settlers, 91' },
-  { name: 'Acid Soaker Container: Large Ampoule', rarity: 22, source: 'Settlers, 91' },
-  { name: 'Acid Soaker Container: Large Vial', rarity: 40, source: 'Settlers, 91' },
-  // Alien Blaster
-  { name: 'Alien Blaster Magazine: Fusion Mag', rarity: 21*6, source: 'Settlers, 92' },
-  // Assualtron Head
-  { name: 'Assaultron Head Capacitor: Mk III', rarity: 4, source: 'Settlers, 93' },
-  { name: 'Assaultron Head Capacitor: MK IV', rarity: 8, source: 'Settlers, 93' },
-  { name: 'Assaultron Head Capacitor: Mk V', rarity: 12, source: 'Settlers, 93' },
-  { name: 'Assaultron Head Capacitor: Mk VI', rarity: 16, source: 'Settlers, 93' },
-
-  { name: 'Energy Weapon Capacitor: Gamma Wave Emitter', rarity: 14, source: 'Wanderers, 83' },
-  { name: 'Energy Weapon Capacitor: Maximized Capacitor', rarity: 17, source: 'Wanderers, 83' },
-  { name: 'Energy Weapon Capacitor: Boosted Photon Agitator', rarity: 20, source: 'Wanderers, 83' },
-  { name: 'Energy Weapon Capacitor: Boosted Gamma Wave Emitter', rarity: 23, source: 'Wanderers, 83' },
-  { name: 'Energy Weapon Capacitor: Overcharged Capacitor', rarity: 42, source: 'Wanderers, 83' },
-  { name: 'Energy Weapon Barrel: Improved Long Barrel', rarity: 15, source: 'Wanderers, 83' },
-  { name: 'Energy Weapon Barrel: Improved Automatic Barrel', rarity: 18, source: 'Wanderers, 83' },
-  { name: 'Energy Weapon Barrel: Improved Sniper Barrel', rarity: 21, source: 'Wanderers, 83' },
-  { name: 'Energy Weapon Barrel: Improved Splitter', rarity: 25, source: 'Wanderers, 83' },
   { name: 'Energy Weapon Muzzle: Amplified Beam Splitter', rarity: 15, source: 'Wanderers, 83' },
   { name: 'Energy Weapon Muzzle: Fine-Tuned Beam Focuser', rarity: 18, source: 'Wanderers, 83' },
   { name: 'Energy Weapon Muzzle: Quantum Gyro-Compensating Lens', rarity: 21, source: 'Wanderers, 83' },
-
-  //Big Guns
-  // Flamer
+];
+export const energyWeaponMods = [
+  ...energyWeaponCapacitors,
+  ...energyWeaponMagazines,
+  ...energyWeaponBarrels,
+  ...energyWeaponGripsAndStocks,
+  ...energyWeaponSights,
+  ...energyWeaponMuzzles,
+];
+const bigGunReceivers = [
   { name: "Flamer Fuel: Napalm", rarity: 59, source: "Core, 107" },
-  { name: "Flamer Barrel: Long Barrel", rarity: 28, source: "Core, 107" },
-  { name: "Flamer Tank: Large Tank", rarity: 28, source: "Core, 107" },
-  { name: "Flamer Tank: Huge Tank", rarity: 34, source: "Core, 107" },
-  { name: "Flamer Nozzle: Compression Nozzle", rarity: 22, source: "Core, 107" },
-  { name: "Flamer Nozzle: Vaporization Nozzle", rarity: 47, source: "Core, 107" },
-  // Gatling Laser
   { name: "Gatling Laser Capacitor: Photon Exciter", rarity: 19, source: "Core, 108" },
   { name: "Gatling Laser Capacitor: Beta Wave Tuner", rarity: 57, source: "Core, 108" },
   { name: "Gatling Laser Capacitor: Boosted Capacitor", rarity: 94, source: "Core, 108" },
   { name: "Gatling Laser Capacitor: Photon Agitator", rarity: 132, source: "Core, 108" },
-  { name: "Gatling Laser Barrel: Charging Barrel", rarity: 357, source: "Core, 108" },
-  { name: "Gatling Laser Sight: Reflex Sight", rarity: 169, source: "Core, 108" },
-  { name: "Gatling Laser Nozzle: Beam Focuser", rarity: 22, source: "Core, 108" },
   { name: 'Gatling Laser Capacitor: Gamma Wave Emitter', rarity: 169, source: 'Wanderers, 84' },
   { name: 'Gatling Laser Capacitor: Maximized Capacitor', rarity: 207, source: 'Wanderers, 84' },
   { name: 'Gatling Laser Capacitor: Boosted Photon Agitator', rarity: 244, source: 'Wanderers, 84' },
   { name: 'Gatling Laser Capacitor: Boosted Gamma Wave Emitter', rarity: 282, source: 'Wanderers, 84' },
   { name: 'Gatling Laser Capacitor: Overcharged Capacitor', rarity: 319, source: 'Wanderers, 84' },
-  // Junk Jet
-  { name: "Junk Jet Barrel: Long Barrel", rarity: 20, source: "Core, 109" },
-  { name: "Junk Jet Stock: Recoil Compensating Stock", rarity: 40, source: "Core, 109" },
-  { name: "Junk Jet Sight: Gunner Sight", rarity: 5, source: "Core, 109" },
-  { name: "Junk Jet Muzzle: Electrification Module", rarity: 70, source: "Core, 109" },
-  { name: "Junk Jet Muzzle: Ignition Module", rarity: 130, source: "Core, 109" },
-  // Minigun
-  { name: "Minigun Barrel: Accelerated Barrel", rarity: 45, source: "Core, 109" },
-  { name: "Minigun Barrel: Tri-Barrel", rarity: 75, source: "Core, 109" },
-  { name: "Minigun Sight: Gunner Sight", rarity: 68, source: "Core, 109" },
-  { name: "Minigun Muzzle: Shredder", rarity: 5, source: "Core, 109" }, // Really? 5?
-  // Missile Launcher
-  { name: "Missile Launcher Barrel: Triple Barrel", rarity: 143, source: "Core, 110" },
-  { name: "Missile Launcher Barrel: Quad Barrel", rarity: 218, source: "Core, 110" },
-  { name: "Missile Launcher Sight: Scope", rarity: 143, source: "Core, 110" },
-  { name: "Missile Launcher Sight: Night Vision Scope", rarity: 248, source: "Core, 110" },
-  { name: "Missile Launcher Sight: Targeting Computer", rarity: 293, source: "Core, 110" },
-  { name: "Missile Launcher Muzzle: Bayonet", rarity: 30, source: "Core, 110" },
-  { name: "Missile Launcher Muzzle: Stabilizer", rarity: 60, source: "Core, 110" },
-  // Broadsider
-  { name: 'Broadsider Barrel: Long Barrel', rarity: 40, source: 'Settlers, 94' },
-  { name: 'Broadsider Barrel: Light Barrel', rarity: 30, source: 'Settlers, 94' },
-  { name: 'Broadsider Cannister: Multi Shot Cannister', rarity: 45, source: 'Settlers, 94' },
-  { name: 'Broadsider Cannister: M79 Launcher', rarity: 3, source: 'Settlers, 94' },
-  // Cryolator
-  { name: 'Cryolator Barrel: Crystallizing Barrel', rarity: 40, source: 'Settlers, 95' },
-  { name: 'Cryolator Magazine: Fusion Mag', rarity: 21, source: 'Settlers, 95' },
-  { name: 'Cryolator Stock: Recoil Compensating Stock', rarity: 45, source: 'Settlers, 95' },
-  { name: 'Cryolator Sight: Reflex', rarity: 17, source: 'Settlers, 95' },
-  // Harpoon Gun
-  { name: 'Harpoon Gun Magazine: Barbed Harpoon', rarity: 21, source: 'Settlers, 96' },
-  { name: 'Harpoon Gun Magazine: Flechette Darts', rarity: 15, source: 'Settlers, 96' },
-  { name: 'Harpoon Gun Stock: Recoil Compensating Stock', rarity: 45, source: 'Settlers, 96' },
-  { name: 'Harpoon Gun Sight: Gunner Sight ', rarity: 17, source: 'Settlers, 96' },
-  { name: 'Harpoon Gun Sight: Short Scope', rarity: 28, source: 'Settlers, 96' },
-  // 50 cal
-  { name: '.50 Cal Machine Gun Barrel: Heavy Barrel', rarity: 35, source: 'Wanderers, 68' },
-  { name: 'Auto Grenade Launcher Barrel: Heavy Barrel', rarity: 135, source: 'Wanderers, 68' },
-  { name: 'Auto Grenade Launcher Barrel: Long Barrel', rarity: 45, source: 'Wanderers, 68' },
   { name: 'Auto Grenade Launcher Receiver: 25mm Grenade Receiver', rarity: 135, source: 'Wanderers, 68' },
   { name: 'Gatling Gun Receiver: Speedy Receiver', rarity: 35, source: 'Wanderers, 69' },
-  { name: 'Gatling Gun Barrel: Long Barrel', rarity: 158, source: 'Wanderers, 69' },
-  { name: 'Gatling Gun Grip: Comfort Grip', rarity: 90, source: 'Wanderers, 69' },
-  { name: 'Gatling Gun Magazine: Extra-Large Magazine', rarity: 28, source: 'Wanderers, 69' },
-  { name: 'Gatling Gun Sight: Front Sight Ring', rarity: 158, source: 'Wanderers, 69' },
-  { name: 'Gatling Gun Muzzle: Large Bayonet', rarity: 18, source: 'Wanderers, 69' },
-  { name: 'Gatling Plasma Barrel: Ported Barrel', rarity: 81, source: 'Wanderers, 70' },
-  { name: 'Gatling Plasma Grip: Comfort Grip', rarity: 90, source: 'Wanderers, 70' },
-  { name: 'Gatling Plasma Sight: Reflex Sight', rarity: 50, source: 'Wanderers, 70' },
-  { name: 'Gatling Plasma Nozzle: Beam Splitter', rarity: 20, source: 'Wanderers, 70' },
-  { name: 'Gatling Plasma Nozzle: Beam Focuser', rarity: 41, source: 'Wanderers, 70' },
-  { name: 'Gauss Minigun Barrel: Tri-Barrel', rarity: 91, source: 'Wanderers, 71' },
-  { name: 'Gauss Minigun Barrel: Penta-Barrel', rarity: 182, source: 'Wanderers, 71' },
   { name: 'Gauss Minigun Tesla Coil: Capacitor', rarity: 91, source: 'Wanderers, 71' },
   { name: 'Gauss Minigun Tesla Coil: Dynamo', rarity: 136, source: 'Wanderers, 71' },
-  { name: 'Gauss Minigun Sight: Gunner Sight', rarity: 5, source: 'Wanderers, 71' },
   { name: 'Plasma Caster Capacitor: Calibrated Capacitor', rarity: 140, source: 'Wanderers, 72' },
   { name: 'Plasma Caster Capacitor: Pulse Capacitor', rarity: 70, source: 'Wanderers, 72' },
   { name: 'Plasma Caster Capacitor: High Speed Electrode', rarity: 105, source: 'Wanderers, 72' },
+];
+const bigGunMagazines = [
+  { name: "Flamer Tank: Large Tank", rarity: 28, source: "Core, 107" },
+  { name: "Flamer Tank: Huge Tank", rarity: 34, source: "Core, 107" },
+  { name: 'Broadsider Cannister: Multi Shot Cannister', rarity: 45, source: 'Settlers, 94' },
+  { name: 'Broadsider Cannister: M79 Launcher', rarity: 3, source: 'Settlers, 94' },
+  { name: 'Cryolator Magazine: Fusion Mag', rarity: 21, source: 'Settlers, 95' },
+  { name: 'Harpoon Gun Magazine: Barbed Harpoon', rarity: 21, source: 'Settlers, 96' },
+  { name: 'Harpoon Gun Magazine: Flechette Darts', rarity: 15, source: 'Settlers, 96' },
+  { name: 'Gatling Gun Magazine: Extra-Large Magazine', rarity: 28, source: 'Wanderers, 69' },
+];
+const bigGunBarrels = [
+  { name: "Flamer Barrel: Long Barrel", rarity: 28, source: "Core, 107" },
+  { name: "Gatling Laser Barrel: Charging Barrel", rarity: 357, source: "Core, 108" },
+  { name: "Junk Jet Barrel: Long Barrel", rarity: 20, source: "Core, 109" },
+  { name: "Minigun Barrel: Accelerated Barrel", rarity: 45, source: "Core, 109" },
+  { name: "Minigun Barrel: Tri-Barrel", rarity: 75, source: "Core, 109" },
+  { name: "Missile Launcher Barrel: Triple Barrel", rarity: 143, source: "Core, 110" },
+  { name: "Missile Launcher Barrel: Quad Barrel", rarity: 218, source: "Core, 110" },
+  { name: 'Broadsider Barrel: Long Barrel', rarity: 40, source: 'Settlers, 94' },
+  { name: 'Broadsider Barrel: Light Barrel', rarity: 30, source: 'Settlers, 94' },
+  { name: 'Cryolator Barrel: Crystallizing Barrel', rarity: 40, source: 'Settlers, 95' },
+  { name: '.50 Cal Machine Gun Barrel: Heavy Barrel', rarity: 35, source: 'Wanderers, 68' },
+  { name: 'Auto Grenade Launcher Barrel: Heavy Barrel', rarity: 135, source: 'Wanderers, 68' },
+  { name: 'Auto Grenade Launcher Barrel: Long Barrel', rarity: 45, source: 'Wanderers, 68' },
+  { name: 'Gatling Gun Barrel: Long Barrel', rarity: 158, source: 'Wanderers, 69' },
+  { name: 'Gatling Plasma Barrel: Ported Barrel', rarity: 81, source: 'Wanderers, 70' },
+  { name: 'Gauss Minigun Barrel: Tri-Barrel', rarity: 91, source: 'Wanderers, 71' },
+  { name: 'Gauss Minigun Barrel: Penta-Barrel', rarity: 182, source: 'Wanderers, 71' },
   { name: 'Plasma Caster Barrel: Long Barrel', rarity: 128, source: 'Wanderers, 72' },
-
-  // bows
+];
+const bigGunGripsAndStocks = [
+  { name: "Junk Jet Stock: Recoil Compensating Stock", rarity: 40, source: "Core, 109" },
+  { name: 'Cryolator Stock: Recoil Compensating Stock', rarity: 45, source: 'Settlers, 95' },
+  { name: 'Harpoon Gun Stock: Recoil Compensating Stock', rarity: 45, source: 'Settlers, 96' },
+  { name: 'Gatling Gun Grip: Comfort Grip', rarity: 90, source: 'Wanderers, 69' },
+  { name: 'Gatling Plasma Grip: Comfort Grip', rarity: 90, source: 'Wanderers, 70' },
+];
+const bigGunSights = [
+  { name: "Gatling Laser Sight: Reflex Sight", rarity: 169, source: "Core, 108" },
+  { name: "Junk Jet Sight: Gunner Sight", rarity: 5, source: "Core, 109" },
+  { name: "Minigun Sight: Gunner Sight", rarity: 68, source: "Core, 109" },
+  { name: "Missile Launcher Sight: Scope", rarity: 143, source: "Core, 110" },
+  { name: "Missile Launcher Sight: Night Vision Scope", rarity: 248, source: "Core, 110" },
+  { name: "Missile Launcher Sight: Targeting Computer", rarity: 293, source: "Core, 110" },
+  { name: 'Cryolator Sight: Reflex', rarity: 17, source: 'Settlers, 95' },
+  { name: 'Harpoon Gun Sight: Gunner Sight ', rarity: 17, source: 'Settlers, 96' },
+  { name: 'Harpoon Gun Sight: Short Scope', rarity: 28, source: 'Settlers, 96' },
+  { name: 'Gatling Gun Sight: Front Sight Ring', rarity: 158, source: 'Wanderers, 69' },
+  { name: 'Gatling Plasma Sight: Reflex Sight', rarity: 50, source: 'Wanderers, 70' },
+  { name: 'Gauss Minigun Sight: Gunner Sight', rarity: 5, source: 'Wanderers, 71' },
+];
+const bigGunMuzzles = [
+  { name: "Flamer Nozzle: Compression Nozzle", rarity: 22, source: "Core, 107" },
+  { name: "Flamer Nozzle: Vaporization Nozzle", rarity: 47, source: "Core, 107" },
+  { name: "Gatling Laser Nozzle: Beam Focuser", rarity: 22, source: "Core, 108" },
+  { name: "Junk Jet Muzzle: Electrification Module", rarity: 70, source: "Core, 109" },
+  { name: "Junk Jet Muzzle: Ignition Module", rarity: 130, source: "Core, 109" },
+  { name: "Minigun Muzzle: Shredder", rarity: 5, source: "Core, 109" }, // Really? 5?
+  { name: "Missile Launcher Muzzle: Bayonet", rarity: 30, source: "Core, 110" },
+  { name: "Missile Launcher Muzzle: Stabilizer", rarity: 60, source: "Core, 110" },
+  { name: 'Gatling Gun Muzzle: Large Bayonet', rarity: 18, source: 'Wanderers, 69' },
+  { name: 'Gatling Plasma Nozzle: Beam Splitter', rarity: 20, source: 'Wanderers, 70' },
+  { name: 'Gatling Plasma Nozzle: Beam Focuser', rarity: 41, source: 'Wanderers, 70' },
+];
+export const bigGunMods = [
+  ...bigGunReceivers,
+  ...bigGunBarrels,
+  ...bigGunMagazines,
+  ...bigGunGripsAndStocks,
+  ...bigGunSights,
+  ...bigGunMuzzles,
+];
+const bowMods = [
   { name: 'Bow Frame: Compound Frame', rarity: 30, source: 'Wanderers, 74' },
   { name: 'Bow Sight: Iron Sights', rarity: 10, source: 'Wanderers, 74' },
   { name: 'Bow Sight: Glow Sights', rarity: 15, source: 'Wanderers, 74' },
@@ -1661,8 +1718,8 @@ export const looseMods = [
   { name: 'Crossbow Frame: Heavy Frame', rarity: 30, source: 'Wanderers, 74' },
   { name: 'Crossbow Frame: Repeating Frame', rarity: 75, source: 'Wanderers, 74' },
   { name: 'Crossbow Frame: Multiple Launch Frame', rarity: 60, source: 'Wanderers, 74' },
-
-  // Melee weapons
+];
+export const meleeMods = [
   { name: "Sword: Serrated Blade", rarity: 25, source: "Core, 112" },
   { name: "Sword: Electrified Blade", rarity: 50, source: "Core, 112" },
   { name: "Sword: Electrified Serrated Blade", rarity: 75, source: "Core, 112" },
@@ -1711,7 +1768,6 @@ export const looseMods = [
   { name: "Knuckles: Bladed", rarity: 5, source: "Core, 118" },
   { name: "Power Fist: Puncturing", rarity: 45, source: "Core, 119" },
   { name: "Power Fist: Heating Coil", rarity: 100, source: "Core, 119" },
-
   { name: 'Assaultron Blade: Electrified Blade', rarity: 50, source: 'Wanderers, 76' },
   { name: 'Auto Axe: Electrified', rarity: 50, source: 'Wanderers, 76' },
   { name: 'Auto Axe: Burning', rarity: 50, source: 'Wanderers, 76' },
@@ -1721,8 +1777,8 @@ export const looseMods = [
   { name: 'Chainsaw: Bow Bar', rarity: 45, source: 'Wanderers, 78' },
   { name: 'Chainsaw: Long Bow Bar', rarity: 60, source: 'Wanderers, 78' },
   { name: 'Chainsaw: Flaming', rarity: 90, source: 'Wanderers, 78' },
-
-  // Apparrel
+];
+const clothingMods = [
   { name: 'Clothing: Ballistic Weave', rarity: 20, source: 'Core, 126' },
   { name: 'Clothing: Ballistic Weave Mk II', rarity: 30, source: 'Core, 126' },
   { name: 'Clothing: Ballistic Weave Mk III', rarity: 40, source: 'Core, 126' },
@@ -1737,8 +1793,8 @@ export const looseMods = [
   { name: 'Underarmor Suit: Resistant Lining', rarity: 15, source: 'Wanderers, 87' },
   { name: 'Underarmor Suit: Protective Lining', rarity: 24, source: 'Wanderers, 87' },
   { name: 'Underarmor Suit: Shielded Lining', rarity: 36, source: 'Wanderers, 87' },
-
-  // Armor
+];
+const armorMaterialMods = [
   { name: 'Raider Armor Material: Welded', rarity: 3, source: 'Core, 133' },
   { name: 'Raider Armor Material: Tempered', rarity: 6, source: 'Core, 133' },
   { name: 'Raider Armor Material: Hardened', rarity: 9, source: 'Core, 133' },
@@ -1761,7 +1817,6 @@ export const looseMods = [
   { name: 'Synth Armor Material: Resin', rarity: 10, source: 'Core, 135' },
   { name: 'Synth Armor Material: Microcarbon', rarity: 15, source: 'Core, 135' },
   { name: 'Synth Armor Material: Nanofilament', rarity: 20, source: 'Core, 135' },
-  
   { name: 'Legionary Armor Material: Reinforced', rarity: 6, source: 'Wanders, 90' },
   { name: 'Legionary Armor Material: Shadowed', rarity: 48, source: 'Wanders, 90' },
   { name: 'Legionary Armor Material: Treated', rarity: 15, source: 'Wanders, 90' },
@@ -1780,7 +1835,8 @@ export const looseMods = [
   { name: 'Robot Armor Material: Alloyed', rarity: 30, source: 'Wanders, 93' },
   { name: 'Robot Armor Material: Polished', rarity: 40, source: 'Wanders, 93' },
   { name: 'Wood Armor Material: Shrouded', rarity: 10, source: 'Wanders, 93' },
-  
+];
+const armorUpgradeMods = [
   { name: 'Armor Upgrade: Lighter Build', rarity: 1, source: 'Core, 136' },
   { name: 'Armor Upgrade: Pocketed', rarity: 1, source: 'Core, 136' },
   { name: 'Armor Upgrade: Deep Pocketed', rarity: 5, source: 'Core, 136' },
@@ -1798,9 +1854,9 @@ export const looseMods = [
   { name: 'Armor Upgrade - Arm: Weighted', rarity: 3, source: 'Core, 136' },
   { name: 'Armor Upgrade - Leg: Cushioned', rarity: 1, source: 'Core, 136' },
   { name: 'Armor Upgrade - Leg: Muffled', rarity: 2, source: 'Core, 136' },
-  // Power Armor
+];
+const powerArmorMaterialMods = [
   { name: 'Power Armor Upgrade: Raider II', rarity: 5+10+7+7, source: 'Core, 139' },
-  { name: 'Power Armor Torso System: Raider Welded Rebar', rarity: 25, source: 'Core, 139' },
   { name: 'Power Armor Upgrade: T-45b', rarity: 3+7+7+7, source: 'Core, 140' },
   { name: 'Power Armor Upgrade: T-45c', rarity: 6+14+10+10, source: 'Core, 140' },
   { name: 'Power Armor Upgrade: T-45d', rarity: 9+21+15+15, source: 'Core, 140' },
@@ -1821,8 +1877,9 @@ export const looseMods = [
   { name: 'Power Armor Upgrade: X-01 Mk 4', rarity: 21+42+30+30, source: 'Core, 143' },
   { name: 'Power Armor Upgrade: X-01 Mk 5', rarity: 28+56+40+40, source: 'Core, 143' },
   { name: 'Power Armor Upgrade: X-01 Mk 6', rarity: 35+70+50+50, source: 'Core, 143' },
-  { name: 'Power Armor Plating: X-01 EMP Shielding', rarity: 20, source: 'Core, 143' },
-
+];
+const powerArmorSystemMods = [
+  { name: 'Power Armor Torso System: Raider Welded Rebar', rarity: 25, source: 'Core, 139' },
   { name: 'Power Armor Head System: Rad Scrubber', rarity: 100, source: 'Core, 144' },
   { name: 'Power Armor Head System: Sensor Array', rarity: 100, source: 'Core, 144' },
   { name: 'Power Armor Head System: Targeting HUD', rarity: 100, source: 'Core, 144' },
@@ -1844,13 +1901,31 @@ export const looseMods = [
   { name: 'Power Armor Leg System: Calibrated Shocks', rarity: 100, source: 'Core, 145' },
   { name: 'Power Armor Leg System: Explosive Vent', rarity: 100, source: 'Core, 145' },
   { name: 'Power Armor Leg System: Overdive Servos', rarity: 100, source: 'Core, 145' },
+];
+const powerArmorPlatingMods = [
   { name: 'Power Armor Plating: Titanium', rarity: 10, source: 'Core, 145' },
   { name: 'Power Armor Plating: Lead', rarity: 10, source: 'Core, 145' },
   { name: 'Power Armor Plating: Photovoltaic', rarity: 10, source: 'Core, 145' },
   { name: 'Power Armor Plating: Prism Shielding', rarity: 10, source: 'Core, 145' },
   { name: 'Power Armor Plating: Explosive Shielding', rarity: 10, source: 'Core, 145' },
-  
-  // robot armor
+  { name: 'Power Armor Plating: X-01 EMP Shielding', rarity: 20, source: 'Core, 143' },
+];
+export const armorMods = [
+  ...clothingMods,
+  ...armorMaterialMods,
+  ...armorUpgradeMods,
+];
+export const powerArmorMods = [
+  ...powerArmorMaterialMods,
+  ...powerArmorSystemMods,
+  ...powerArmorPlatingMods,
+];
+export const anyArmorMods = [
+  ...armorMods,
+  ...powerArmorMods,
+
+];
+const robotMods = [
   { name: 'Robot Factory Armor', rarity: 10*5, source: 'Core, 146' },
   { name: 'Robot Factory Storage Armor', rarity: 25, source: 'Core, 146' },
   { name: 'Robot Primal Plate', rarity: 10*5, source: 'Core, 146' },
@@ -1895,142 +1970,20 @@ export const looseMods = [
   { name: 'Robot Weapon Claw: Stun', rarity: 30, source: 'Settlers, 83' },
   { name: 'Robot Weapon: Smoke Claws', rarity: 44, source: 'Settlers, 90' },
 ];
-
+export const anyLooseMods = [
+  ...smallGunMods,
+  ...energyWeaponMods,
+  ...bigGunMods,
+  ...bowMods,
+  ...meleeMods,
+  ...anyArmorMods,
+  ...robotMods
+]
 export const legendaryBaseItems = [
-  { name: '.44 Pistol', rarity: 2, source: 'Core, 95' },
-  { name: '10mm Pistol', rarity: 1, source: 'Core, 95' },
-  { name: 'Flare Gun', rarity: 1, source: 'Core, 95' },
-  { name: 'Assault Rifle', rarity: 2, source: 'Core, 95' },
-  { name: 'Combat Rifle', rarity: 2, source: 'Core, 95' },
-  { name: 'Gauss Rifle', rarity: 4, source: 'Core, 95' },
-  { name: 'Hunting Rifle', rarity: 2, source: 'Core, 95' },
-  { name: 'Submachine Gun', rarity: 1, source: 'Core, 95' },
-  { name: 'Combat Shotgun', rarity: 2, source: 'Core, 95' },
-  { name: 'Double-Barrel Shotgun', rarity: 1, source: 'Core, 95' },
-  { name: 'Pipe Bolt-Action', rarity: 0, source: 'Core, 95' },
-  { name: 'Pipe Gun', rarity: 0, source: 'Core, 95' },
-  { name: 'Pipe Revolver', rarity: 0, source: 'Core, 95' },
-  { name: 'Railway Rifle', rarity: 4, source: 'Core, 95' },
-  { name: 'Syringer', rarity: 2, source: 'Core, 95' },
-  { name: 'M79 Grenade Launcher', rarity: 3, source: 'Settlers, 90' },
-  { name: '.357 Magnum Revolver', rarity: 2, source: 'Wanderers, 60' },
-  { name: '12.7mm Pistol', rarity: 4, source: 'Wanderers, 60' },
-  { name: '12.7mm SMG', rarity: 4, source: 'Wanderers, 60' },
-  { name: '25mm Grenade APW', rarity: 4, source: 'Wanderers, 60' },
-  { name: '9mm Pistol', rarity: 2, source: 'Wanderers, 60' },
-  { name: 'Anti-Materiel Rifle', rarity: 4, source: 'Wanderers, 60' },
-  { name: 'Battle Rifle', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Black Powder Blunderbuss', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Black Powder Pistol', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Black Powder Rifle', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Gauss Pistol', rarity: 5, source: 'Wanderers, 60' },
-  { name: 'Gauss Shotgun', rarity: 5, source: 'Wanderers, 60' },
-  { name: 'Lever-Action Rifle', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Light Machine Gun', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Pump-Action Shotgun', rarity: 1, source: 'Wanderers, 60' },
-  { name: 'Radium Rifle', rarity: 3, source: 'Wanderers, 60' },
-  { name: 'Sniper Rifle', rarity: 4, source: 'Wanderers, 60' },
-  { name: 'Institute Laser', rarity: 2, source: 'Core, 101' },
-  { name: 'Laser Musket', rarity: 1, source: 'Core, 101' },
-  { name: 'Laser Gun', rarity: 2, source: 'Core, 101' },
-  { name: 'Plasma Gun', rarity: 3, source: 'Core, 101' },
-  { name: 'Gamma Gun', rarity: 5, source: 'Core, 101' },
-  { name: 'Acid Soaker', rarity: 3, source: 'Settlers, 91' },
-  { name: 'Alien Blaster', rarity: 5, source: 'Settlers, 91' },
-  // { name: 'Assaultron Head Laser', rarity: 4, source: 'Settlers, 91' },
-  { name: 'Assaultron Head', rarity: 3, source: 'Wanderers, 65' },
-  { name: 'Mesmetron', rarity: 4, source: 'Settlers, 91' },
-  { name: 'Alien Atomizer', rarity: 5, source: 'Wanderers, 65' },
-  { name: 'Alien Disintegrator', rarity: 5, source: 'Wanderers, 65' },
-  { name: 'Arc Welder', rarity: 4, source: 'Wanderers, 65' },
-  { name: 'Microwave Emitter', rarity: 5, source: 'Wanderers, 65' },
-  // { name: 'Tesla Rifle', rarity: 4, source: 'Settlers, 91' },
-  { name: 'Tesla Rifle', rarity: 4, source: 'Wanderers, 65' },
-  { name: 'Fat Man', rarity: 4, source: 'Core, 106' },
-  { name: 'Flamer', rarity: 3, source: 'Core, 106' },
-  { name: 'Gatling Laser', rarity: 3, source: 'Core, 106' },
-  { name: 'Heavy Incinerator', rarity: 4, source: 'Core, 106' },
-  { name: 'Junk Jet', rarity: 3, source: 'Core, 106' },
-  { name: 'Minigun', rarity: 2, source: 'Core, 106' },
-  { name: 'Missile Launcher', rarity: 4, source: 'Core, 106' },
-  { name: 'Broadsider', rarity: 5, source: 'Settlers, 94' },
-  { name: 'Cryolator', rarity: 4, source: 'Settlers, 94' },
-  { name: 'Harpoon Gun', rarity: 5, source: 'Settlers, 94' },
-  { name: '.50 Cal Machine Gun', rarity: 3, source: 'Wanderers, 67' },
-  { name: 'Auto Grenade Launcher', rarity: 4, source: 'Wanderers, 67' },
-  { name: 'Drone Cannon', rarity: 5, source: 'Wanderers, 67' },
-  { name: 'Gatling Gun', rarity: 1, source: 'Wanderers, 67' },
-  { name: 'Gatling Plasma', rarity: 4, source: 'Wanderers, 67' },
-  { name: 'Gauss Minigun', rarity: 6, source: 'Wanderers, 67' },
-  { name: 'Plasma Caster', rarity: 5, source: 'Wanderers, 67' },
-  { name: 'Tesla Cannon', rarity: 5, source: 'Wanderers, 67' },
-  { name: 'Bow', rarity: 1, source: 'Wanderers, 73' },
-  { name: 'Crossbow', rarity: 2, source: 'Wanderers, 73' },
-  { name: 'Sword', rarity: 2, source: 'Core, 111' },
-  { name: 'Combat Knife', rarity: 1, source: 'Core, 111' },
-  { name: 'Machete', rarity: 1, source: 'Core, 111' },
-  { name: 'Ripper', rarity: 2, source: 'Core, 111' },
-  { name: 'Shishkebab', rarity: 3, source: 'Core, 111' },
-  { name: 'Switchblade', rarity: 0, source: 'Core, 111' },
-  { name: 'Baseball Bat', rarity: 1, source: 'Core, 111' },
-  { name: 'Aluminum Baseball Bat', rarity: 2, source: 'Core, 111' },
-  { name: 'Board', rarity: 0, source: 'Core, 111' },
-  { name: 'Lead Pipe', rarity: 0, source: 'Core, 111' },
-  { name: 'Pipe Wrench', rarity: 1, source: 'Core, 111' },
-  { name: 'Pool Cue', rarity: 0, source: 'Core, 111' },
-  { name: 'Rolling Pin', rarity: 0, source: 'Core, 111' },
-  { name: 'Baton', rarity: 1, source: 'Core, 111' },
-  { name: 'Sledgehammer', rarity: 2, source: 'Core, 111' },
-  { name: 'Super Sledge', rarity: 3, source: 'Core, 111' },
-  { name: 'Tire Iron', rarity: 1, source: 'Core, 111' },
-  { name: 'Walking Cane', rarity: 0, source: 'Core, 111' },
-  { name: 'Boxing Glove', rarity: 1, source: 'Core, 111' },
-  { name: 'Deathclaw Gauntlet', rarity: 3, source: 'Core, 111' },
-  { name: 'Knuckles', rarity: 1, source: 'Core, 111' },
-  { name: 'Power Fist', rarity: 2, source: 'Core, 111' },
-  { name: 'Assaultron Blade', rarity: 3, source: 'Wanderers, 75' },
-  { name: 'Auto-Axe', rarity: 3, source: 'Wanderers, 75' },
-  { name: 'Ballistic Fist', rarity: 4, source: 'Wanderers, 75' },
-  { name: 'Bumper Sword', rarity: 2, source: 'Wanderers, 75' },
-  { name: 'Cattle Prod', rarity: 4, source: 'Wanderers, 75' },
-  { name: 'Chainsaw', rarity: 3, source: 'Wanderers, 75' },
-  { name: 'Death Tambo', rarity: 2, source: 'Wanderers, 75' },
-  { name: 'Displacer Glove', rarity: 4, source: 'Wanderers, 75' },
-  { name: 'Guitar Sword', rarity: 3, source: 'Wanderers, 75' },
-  { name: 'Mr Handy Buzz Blade', rarity: 2, source: 'Wanderers, 75' },
-  { name: 'Multi-Purpose Axe', rarity: 2, source: 'Wanderers, 75' },
-  { name: 'Proton Axe', rarity: 5, source: 'Wanderers, 75' },
-  { name: 'War Drum', rarity: 3, source: 'Wanderers, 75' },
-  { name: 'Raider Armor Piece (Standard)', rarity: 0, source: 'Core, 130' },
-  { name: 'Raider Armor Piece (Sturdy)', rarity: 1, source: 'Core, 130' },
-  { name: 'Raider Armor Piece (Heavy)', rarity: 2, source: 'Core, 130' },
-  { name: 'Leather Armor Piece (Standard)', rarity: 1, source: 'Core, 130' },
-  { name: 'Leather Armor Piece (Sturdy)', rarity: 2, source: 'Core, 130' },
-  { name: 'Leather Armor Piece (Heavy)', rarity: 3, source: 'Core, 130' },
-  { name: 'Metal Armor Piece (Standard)', rarity: 1, source: 'Core, 131' },
-  { name: 'Metal Armor Piece (Sturdy)', rarity: 2, source: 'Core, 131' },
-  { name: 'Metal Armor Piece (Heavy)', rarity: 3, source: 'Core, 131' },
-  { name: 'Combat Armor Piece (Standard)', rarity: 2, source: 'Core, 131' },
-  { name: 'Combat Armor Piece (Sturdy)', rarity: 3, source: 'Core, 131' },
-  { name: 'Combat Armor Piece (Heavy)', rarity: 4, source: 'Core, 131' },
-  { name: 'Synth Armor Piece (Standard)', rarity: 3, source: 'Core, 132' },
-  { name: 'Synth Armor Piece (Sturdy)', rarity: 4, source: 'Core, 132' },
-  { name: 'Synth Armor Piece (Heavy)', rarity: 5, source: 'Core, 132' },
-  { name: 'Legionary Armor Piece (Recruit)', rarity: 3, source: 'Wanderers, 89' },
-  { name: 'Legionary Armor Piece', rarity: 4, source: 'Wanderers, 89' },
-  { name: 'Legionary Armor Piece (Centurion)', rarity: 5, source: 'Wanderers, 89' },
-  { name: 'Marine Armor Piece', rarity: 4, source: 'Wanderers, 90' },
-  { name: 'Scout Armor Piece', rarity: 4, source: 'Wanderers, 91' },
-  { name: 'Robot Armor Piece (Standard)', rarity: 2, source: 'Wanderers, 92' },
-  { name: 'Robot Armor Piece (Sturdy)', rarity: 3, source: 'Wanderers, 92' },
-  { name: 'Robot Armor Piece (Heavy)', rarity: 4, source: 'Wanderers, 92' },
-  { name: 'Wood Armor Piece', rarity: 0, source: 'Wanderers, 93' },
-  { name: 'Raider Power Armor Piece', rarity: 2, source: 'Core, 137' },
-  { name: 'T-45 Power Armor Piece', rarity: 2, source: 'Core, 137' },
-  { name: 'T-51 Power Armor Piece', rarity: 3, source: 'Core, 137' },
-  { name: 'T-60 Power Armor Piece', rarity: 4, source: 'Core, 137' },
-  { name: 'X-01 Power Armor Piece', rarity: 5, source: 'Core, 137' },
-  { name: 'Excavator Power Armor Piece', rarity: 3, source: 'Wanderers, 94' },
-  { name: 'Hellcat Power Armor Piece', rarity: 3, source: 'Wanderers, 95' },
-  { name: 'T-65 Power Armor Piece', rarity: 5, source: 'Wanderers, 89' },
+  ...baseSmallGuns,
+  ...baseEnergyWeapons,
+  ...baseBigGuns,
+  ...bows,
+  ...armorPieces,
+  ...powerArmorPieces,
 ];
