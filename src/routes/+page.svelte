@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
   import * as listsSource from '../lib/itemLists.js';
@@ -10,6 +11,10 @@
   let tableData = [];
   let diceCount = 0;
   let hasHomebrew = false;
+  let allowHomebrew = false;
+  onMount(() => {
+    allowHomebrew = $page.url.searchParams.has('homebrew');
+  });
 
   function setStorage(key, value) {
     if (browser) {
@@ -37,7 +42,7 @@
       if (item.source !== 'Homebrew') {
         return true;
       }
-      const homebrew = $page.url.searchParams.has('homebrew');
+      const homebrew = allowHomebrew;
       if (!homebrew) {
         return false;
       }
