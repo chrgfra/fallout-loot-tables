@@ -221,4 +221,10 @@
     width: 100%;
     column-count: 2;
   }
+  table tbody tr:nth-child(even) {
+    background-color: #202323;
+  }
+  table tbody td:first-child {
+    text-align: right;
+  }
 </style>
