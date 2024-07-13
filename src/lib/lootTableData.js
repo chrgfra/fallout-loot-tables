@@ -14,81 +14,6 @@ function sortByRarity(a, b, desc = true) {
   return 0;
 }
 
-export function distribute(items) {
-  // split list by rarity
-  items.sort(({rarity: a}, {rarity: b}) => sortByRarity(a, b));
-
-  // table range
-  const count = getDiceCount(items);
-  if (count === 1) {
-    return singleDieTable(items);
-  }
-  const range = [count, count*20];
-  // find diff between number of possible die results versus length of item list
-  // listDiff is number of repeated entries;
-  let objTable = {};
-  for (let i = range[0]; i <= range[1]; i++) {
-    objTable[i] = false;
-  }
-  let listDiff = Object.keys(objTable).length - items.length;
-  const repeatedKeys = determineWhichIndicesToRepeat(listDiff, range);
-
-  // rarity 0 count
-  let flipABit = true;
-  let i = 0;
-  let breaker = 0;
-  while(Object.values(objTable).some(v => !v)) {
-    const empty = Object.values(objTable).filter(v => !v).length;
-    if (breaker++ > 5000) {
-      console.log("Infinite loop detected, breaking.");
-      break;
-    }
-    // go through lists in descending order; add each to ends of objTable;
-    const item = items.shift();
-    if (items.length === 0) {
-      // hack to prevent middle undefined
-      items.push(item);
-    }
-    if (!item) break;
-    let key;
-    if (flipABit) {
-      // go from first -> last
-      [key] = Object.entries(objTable).find(([k,v]) => !v);
-    } else {
-      // go from last -> first
-      [key] = Object.entries(objTable).reverse().find(([k,v]) => !v);
-    }
-    // const key = flipABit ? Object.keys(objTable)[0] : Object.keys(objTable).reverse()[0];
-    objTable[key] = item;
-    let n = 1;
-    let numKey = Number(key);
-    while (repeatedKeys.includes(numKey)) {
-      if (empty === 0) break;
-      // repeat for this key
-      // find nearest empty
-      let repKey = 0;
-      if (flipABit) {
-        // asc
-        const row = Object.entries(objTable).find(([k,v]) => !v);
-        if (!row) break;
-        repKey = row[0];
-      } else {
-        // desc
-        const row = Object.entries(objTable).reverse().find(([k,v]) => !v);
-        if (!row) break;
-        repKey = row[0];
-      }
-      objTable[repKey] = item;
-      let idx = repeatedKeys.findIndex(k => k === Number(key));
-      repeatedKeys.splice(idx, 1);
-      n++;
-    }
-    flipABit = !flipABit;
-    i++;
-  }
-  return objTable;
-}
-
 function determineWhichIndicesToRepeat(diff, range) {
   const rangeValues = [];
   for (let i = 0; i <= (range[1] - range[0]); i++) {
@@ -161,4 +86,113 @@ function singleDieTable(items) {
     acc[idx+1] = item;
     return acc;
   }, {});
+}
+
+function newSingleDieTable(items) {
+  const table = [...items];
+  const maxRarityInList = items.map(i => i.rarity).reduce((acc, r) => {
+    if (!acc.includes(r)) {
+      acc.push(r);
+    }
+    return acc;
+  }, []);
+  let rarityMarker = 0;
+  while (table.length < 20) {
+    const commonItems = items.filter(i => i.rarity <= rarityMarker);
+    // slot them in one at a time
+    commonItems.sort((a, b) => {
+      if (a.rarity < b.rarity) return -1;
+      if (a.rarity > b.rarity) return 1;
+      return Math.random() > Math.random() ? 1 : -1;
+    });
+    for (let i = 0; i < commonItems.length && table.length < 20; i++) {
+      table.push(commonItems[i]);
+    }
+    rarityMarker += 1;
+    if (rarityMarker > maxRarityInList) {
+      // reset
+      rarityMarker = 0;
+    }
+  }
+  table.sort((a, b) => a.name.localeCompare(b.name)); // alphabetical
+  return table.reduce((acc, item, idx) => {
+    acc[idx+1] = item;
+    return acc;
+  }, {});
+}
+
+export function distribute(items) {
+  // split list by rarity
+  items.sort(({rarity: a}, {rarity: b}) => sortByRarity(a, b));
+
+  // table range
+  const count = getDiceCount(items);
+  if (count === 1) {
+    return newSingleDieTable(items);
+    // return singleDieTable(items);
+  }
+  const range = [count, count*20];
+  // find diff between number of possible die results versus length of item list
+  // listDiff is number of repeated entries;
+  let objTable = {};
+  for (let i = range[0]; i <= range[1]; i++) {
+    objTable[i] = false;
+  }
+  let listDiff = Object.keys(objTable).length - items.length;
+  const repeatedKeys = determineWhichIndicesToRepeat(listDiff, range);
+
+  // rarity 0 count
+  let flipABit = true;
+  let i = 0;
+  let breaker = 0;
+  while(Object.values(objTable).some(v => !v)) {
+    const empty = Object.values(objTable).filter(v => !v).length;
+    if (breaker++ > 5000) {
+      console.log("Infinite loop detected, breaking.");
+      break;
+    }
+    // go through lists in descending order; add each to ends of objTable;
+    const item = items.shift();
+    if (items.length === 0) {
+      // hack to prevent middle undefined
+      items.push(item);
+    }
+    if (!item) break;
+    let key;
+    if (flipABit) {
+      // go from first -> last
+      [key] = Object.entries(objTable).find(([k,v]) => !v);
+    } else {
+      // go from last -> first
+      [key] = Object.entries(objTable).reverse().find(([k,v]) => !v);
+    }
+    // const key = flipABit ? Object.keys(objTable)[0] : Object.keys(objTable).reverse()[0];
+    objTable[key] = item;
+    let n = 1;
+    let numKey = Number(key);
+    while (repeatedKeys.includes(numKey)) {
+      if (empty === 0) break;
+      // repeat for this key
+      // find nearest empty
+      let repKey = 0;
+      if (flipABit) {
+        // asc
+        const row = Object.entries(objTable).find(([k,v]) => !v);
+        if (!row) break;
+        repKey = row[0];
+      } else {
+        // desc
+        const row = Object.entries(objTable).reverse().find(([k,v]) => !v);
+        if (!row) break;
+        repKey = row[0];
+      }
+      objTable[repKey] = item;
+      let idx = repeatedKeys.findIndex(k => k === Number(key));
+      repeatedKeys.splice(idx, 1);
+      n++;
+    }
+    flipABit = !flipABit;
+    i++;
+  }
+  return objTable;
 }
