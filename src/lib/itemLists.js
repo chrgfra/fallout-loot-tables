@@ -62,6 +62,8 @@ export const ammo = [
   { name: 'Arrow', rarity: 1, source: 'Wanderers, 57' },
   { name: 'Crossbow Bolt', rarity: 2, source: 'Wanderers, 57' },
   { name: 'Plasma Core', rarity: 6, source: 'Wanderers, 57' },
+  { name: 'Custom Shells', rarity: 5, source: 'NPC-HH, 29' },
+  { name: 'Tranquilizer Darts', rarity: 5, source: 'NPC-HH, 29' },
 ];
 const baseSmallGuns = [
   { name: '.44 Pistol', rarity: 2, source: 'Core, 95', maxMods: 4 },
@@ -146,7 +148,11 @@ const baseSmallGuns = [
       </tbody>
     </table>
     `,
-  }
+  },
+  { name: 'Sten Gun', rarity: 5, source: 'NPC-HH, 26', maxMods: 5 },
+  { name: 'The Ghoul\'s Pistol', rarity: 5, source: 'NPC-HH, 26', maxMods: 0 },
+  { name: 'The Ghoul\'s Rifle', rarity: 4, source: 'NPC-HH, 26', maxMods: 5 },
+  { name: 'Tranquilizer Pistol', rarity: 5, source: 'NPC-HH, 26', maxMods: 0 },
 ];
 export const smallGuns = [
   ...baseSmallGuns,
@@ -388,6 +394,7 @@ const baseBigGuns = [
     </table>
     `,
   },
+  { name: 'Tranquilizer Sten Gun', rarity: 5, source: 'NPC-HH, 26', maxMods: 0 },
 ];
 export const bigGuns = [...baseBigGuns, ...addGuns(baseBigGuns)];
 const bows = [
@@ -684,6 +691,7 @@ export const meleeWeapons = [
       </table>
     `,
   },
+  { name: 'Shovel', rarity: 1, source: 'NPC-HH, 28' },
 ];
 export const throwables = [
   { name: 'Throwing Knives', rarity: 1, source: 'Core, 119' },
@@ -710,6 +718,8 @@ export const throwables = [
   { name: 'Plastic Explosive', rarity: 4, source: 'Wanderers, 79' },
   { name: 'Powder Charge', rarity: 1, source: 'Wanderers, 79' },
   { name: 'Smoke Grenade', rarity: 2, source: 'Wanderers, 79' },
+  // 
+  { name: 'Makeshift Lasso', rarity: 1, source: 'NPC-HH, 26' },
 ];
 export const clothing = [
   // clothing
@@ -740,6 +750,7 @@ export const clothing = [
   { name: 'Cleanroom Suit', rarity: 2, source: 'Wanderers, 85' },
   { name: 'Hunter\'s Pelt Coat', rarity: 2, source: 'Wanderers, 85' },
   { name: 'Spacesuit Costume', rarity: 4, source: 'Wanderers, 85' },
+  { name: 'The Ghoul\'s Gunslinger Outift', rarity: 5, source: 'NPC-HH, 31' },
   // hats
   { name: 'Army Helmet', rarity: 1, source: 'Core, 124' },
   { name: 'Brotherhood of Steel Hood', rarity: 2, source: 'Core, 124' },
@@ -1018,6 +1029,7 @@ const powerArmorPieces = [
     cost: 100,
     description: ``,
   },
+  { name: 'Knight Titus\' Tempered T-60 Power Armor Piece', rarity: 6, source: 'NPC-HH, 29' },
 ];
 export const powerArmor = [
   { name: 'Power Armor Frame', rarity: 4, source: 'Core, 137' },
@@ -1110,25 +1122,33 @@ export const cookedMeals = [
   { name: 'Scorchbeast Steak', rarity: 4, source: 'Wanderers, 115' },
   { name: 'Snallygaster Stew', rarity: 4, source: 'Wanderers, 115' },
 ];
-export const food = [
-  // Plant
+export const forage = [
   { name: 'Brain Fungus', rarity: 1, source: 'Core, 149' },
+  { name: 'Glowing Fungus', rarity: 1, source: 'Core, 149' },
   { name: 'Carrot', rarity: 1, source: 'Core, 149' },
-  { name: 'Carrot (non-irradiated)', rarity: 3, source: 'Core, 149' },
   { name: 'Corn', rarity: 1, source: 'Core, 149' },
-  { name: 'Corn (non-irradiated)', rarity: 3, source: 'Core, 149' },
   { name: 'Gourd', rarity: 1, source: 'Core, 150' },
   { name: 'Melon', rarity: 1, source: 'Core, 150' },
-  { name: 'Melon (non-irradiated)', rarity: 3, source: 'Core, 150' },
   { name: 'Mutfruit', rarity: 0, source: 'Core, 150' },
-  { name: 'Mutfruit (non-irradiated)', rarity: 2, source: 'Core, 150' },
   { name: 'Razorgrain', rarity: 1, source: 'Core, 151' },
   { name: 'Silt Bean', rarity: 1, source: 'Core, 151' },
-  { name: 'Tarberry', rarity: 3, source: 'Core, 151' },
   { name: 'Tato', rarity: 1, source: 'Core, 151' },
-  { name: 'Honey', rarity: 3, source: 'Wanderers, 114' },
+  { name: 'Hubflower', rarity: 1, source: '' },
+  { name: 'Bloodleaf', rarity: 1, source: '' },
   { name: 'Honeycomb', rarity: 3, source: 'Wanderers, 114' },
   { name: 'Lure Weed', rarity: 1, source: 'Wanderers, 114' },
+
+  { name: 'Carrot (non-irradiated)', rarity: 3, source: 'Core, 149' },
+  { name: 'Corn (non-irradiated)', rarity: 3, source: 'Core, 149' },
+  { name: 'Melon (non-irradiated)', rarity: 3, source: 'Core, 150' },
+  { name: 'Mutfruit (non-irradiated)', rarity: 2, source: 'Core, 150' },
+  { name: 'Tarberry', rarity: 3, source: 'Core, 151' },
+  { name: 'Honey', rarity: 3, source: 'Wanderers, 114' },
+  { name: 'Cherry Tomatoes', rarity: 1, source: 'NPC-HH, 31' },
+];
+export const food = [
+  // Plant
+  ...forage,
   // Pre-war
   { name: 'BlamCo Brand Mac and Cheese', rarity: 1, source: 'Core, 149' },
   { name: 'BlamCo Brand Mac and Cheese (preserved)', rarity: 3, source: 'Core, 149' },
@@ -1151,6 +1171,7 @@ export const food = [
   { name: 'Sugar Bombs (preserved)', rarity: 2, source: 'Core, 151' },
   { name: 'Sweet Roll', rarity: 1, source: 'Core, 151' },
   { name: 'Yum-Yum Deviled Eggs', rarity: 0, source: 'Core, 151' },
+  { name: 'Vault-Tec Plan D', rarity: 5, source: 'NPC-HH, 31' },
 ];
 export const beverages = [
   { name: 'Beer', rarity: 1, source: 'Core, 160' },
@@ -1308,22 +1329,6 @@ export const chems = [
   { name: 'Ultra Jet', rarity: 2, source: 'Core, 165' },
   { name: 'X-Cell', rarity: 4, source: 'Core, 165' },
 ];
-export const forage = [
-  { name: 'Brain Fungus', rarity: 1, source: 'Core, 149' },
-  { name: 'Glowing Fungus', rarity: 1, source: 'Core, 149' },
-  { name: 'Carrot', rarity: 1, source: 'Core, 149' },
-  { name: 'Corn', rarity: 1, source: 'Core, 149' },
-  { name: 'Gourd', rarity: 1, source: 'Core, 150' },
-  { name: 'Melon', rarity: 1, source: 'Core, 150' },
-  { name: 'Mutfruit', rarity: 0, source: 'Core, 150' },
-  { name: 'Razorgrain', rarity: 1, source: 'Core, 151' },
-  { name: 'Silt Bean', rarity: 1, source: 'Core, 151' },
-  { name: 'Tato', rarity: 1, source: 'Core, 151' },
-  { name: 'Hubflower', rarity: 1, source: '' },
-  { name: 'Bloodleaf', rarity: 1, source: '' },
-  { name: 'Honeycomb', rarity: 3, source: 'Wanderers, 114' },
-  { name: 'Lure Weed', rarity: 1, source: 'Wanderers, 114' },
-];
 export const magazines = [
   { name: '¡La Fantoma!', rarity: 1, source: 'Core, 172' },
   { name: 'Astoundingly Awesome Tales', rarity: 1, source: 'Core, 172' },
@@ -1452,6 +1457,8 @@ export const oddities = [
   { name: 'Container', rarity: 2, source: '' },
   { name: 'Magazine', rarity: 3, source: '' },
   { name: 'Locked Container', rarity: 4, source: '' },
+  { name: 'Vault 33 Survival Pack', rarity: 5, source: 'NPC-HH, 31' },
+  { name: 'Jim\'s Limb', rarity: 4, source: 'NPC-HH, 31' },
 ];
 export const syringerAmmo = [
   { name: 'Berserk', rarity: 50, source: 'Core, 93' },
@@ -1778,6 +1785,7 @@ export const meleeMods = [
   { name: 'Chainsaw: Bow Bar', rarity: 45, source: 'Wanderers, 78' },
   { name: 'Chainsaw: Long Bow Bar', rarity: 60, source: 'Wanderers, 78' },
   { name: 'Chainsaw: Flaming', rarity: 90, source: 'Wanderers, 78' },
+  { name: 'Shovel: Serrated Edge', rarity: 10, source: 'NPC-HH, 28' },
 ];
 const clothingMods = [
   { name: 'Clothing: Ballistic Weave', rarity: 20, source: 'Core, 126' },
@@ -1902,6 +1910,7 @@ const powerArmorSystemMods = [
   { name: 'Power Armor Leg System: Calibrated Shocks', rarity: 100, source: 'Core, 145' },
   { name: 'Power Armor Leg System: Explosive Vent', rarity: 100, source: 'Core, 145' },
   { name: 'Power Armor Leg System: Overdive Servos', rarity: 100, source: 'Core, 145' },
+  { name: 'Power Armor Torso System: T-60 Integrated Flight System', rarity: 500, source: 'NPC-HH, 30' },
 ];
 const powerArmorPlatingMods = [
   { name: 'Power Armor Plating: Titanium', rarity: 10, source: 'Core, 145' },
