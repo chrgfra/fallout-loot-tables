@@ -440,6 +440,7 @@ export const meleeWeapons = [
   { name: 'Multi-Purpose Axe', rarity: 2, source: 'Wanderers, 75' },
   { name: 'Proton Axe', rarity: 5, source: 'Wanderers, 75' },
   { name: 'War Drum', rarity: 3, source: 'Wanderers, 75' },
+  { name: 'Thermic Lance', rarity: 4, source: 'Wanderers, 219' },
   // Homebrew
   // baseball bat: 4 vs 55; multiply damage by 0.07 and round
   // Bone Club, plasma cutter, sheepsquatch club, sheepsquatch staff, warglaive, spear

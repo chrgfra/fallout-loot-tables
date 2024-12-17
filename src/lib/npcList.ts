@@ -15,7 +15,7 @@ type Ability = {
 };
 
 const abilities = {
-  letRip: (name, gun, rof, dam):Ability => ({
+  letRip: (name, gun, rof, dam): Ability => ({
     name: 'Let Rip',
     text: `Once per combat, ${name} may 'let rip' with a volley from their ${gun}. This adds the weapon's Fire Rate of ${rof} to the weapon's damage for a single attack (for ${rof+dam} CD total).`
   })
